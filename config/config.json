@@ -1,0 +1,8 @@
+{
+  "projectName":"渠道管理平台",
+  "devUrl":"http://www.easy-mock.com/mock/5959bfe39adc231f356fa706/channel-mer-web",
+  "_devUrl":"http://192.168.5.120:8080/merchant-web",
+  "baseUrl":"http://192.168.5.120:8080/merchant-web",
+  "vcodeUri":"http://192.168.5.120:8080/merchant-web/user/identify?keyID=",
+  "tokenCookieName": "whatever"
+}
