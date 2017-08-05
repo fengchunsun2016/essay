@@ -19,9 +19,7 @@ const baseUrl = process.env.NODE_ENV === 'production' ? config.baseUrl : config.
  */
 function getHeaders(){
   const headers = {
-    'Content-Type': 'application/x-www-form-urlencoded',
-    // 'Content-Type': 'application/json',
-    // 'Access-Control-Allow-Origin': '*',
+    'Content-Type': 'application/json',
     'Accept': 'application/json',
     'Authorization': getToken()
   };
@@ -33,18 +31,17 @@ function getHeaders(){
  * @returns {Promise.<void>}
  */
 export async function get(url, data){
-  const headers =getHeaders();
+  const headers = getHeaders();
   const options = {
     headers,
+    mode: 'cors',
     method: 'GET',
   }
   //去除空值
   let newData = removeEmptyObject(data);
-
   if (newData) {
     url = url + '?' + qs.stringify(newData);
   }
-
   return request(url, options);
 }
 
@@ -76,9 +73,10 @@ export async function post(url, data){
   const headers =getHeaders();
   const options = {
     headers,
-    method: 'POST',
     mode: 'cors',
-    body: qs.stringify(data)
+    method: 'POST',
+    body: JSON.stringify(data),
+    // body: qs.stringify(data)
   }
   return request(url, options);
 }
@@ -94,17 +92,10 @@ export async function request(url, options = {}){
   const response = await fetch(fetchUrl, options);
   checkStatus(response);
   const data = await response.json();
-  // 如果token过期，返回的每条数据，都会标志token过期
-  if (data.code === 516) {
-    return { tokenValid: false };
-  }
-  // 业务校验，判断返回内容，如果没有过期，token为true
   const result = await checkCode(data);
-  const ret = {
+  return {
     data: result,
-    tokenValid: true,
   };
-  return ret;
 }
 
 
@@ -135,7 +126,11 @@ function checkStatus(response){
  */
 async function checkCode(result){
   if (result && result.code === 200) {
+    result.tokenValid = true;
     return result;
+  }
+  if (data.code === 516) {
+    return { tokenValid: false };
   }
   if (process.browser) {
     notification.warning({

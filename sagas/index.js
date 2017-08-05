@@ -13,6 +13,7 @@ import workOrder from './workOrder';
 import change from './change';
 import mer from './mer';
 import deal from './deal';
+import settlement from './settlement';
 
 /**
  * saga统一导出函数
@@ -29,6 +30,7 @@ export default function* rootSaga() {
       ...workOrder,
       ...change,
       ...mer,
-      ...deal
+      ...deal,
+      ...settlement
     ])
 }

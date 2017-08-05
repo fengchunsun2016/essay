@@ -70,27 +70,7 @@ class WorkOrder extends React.Component {
     });
   }
 
-  /*点击列表项显示详情*/
-  handleClick(record){
-    const {workOrder:{list},dispatch} = this.props;
-    if(record.haveRead==false){
-      const newList = list.map((item)=>{
-        if(record.id==item.id){
-          item.haveRead=true;
-        }
-        return item;
-      });
-      this.props.workOrder.list = newList;
-      dispatch(postHaveReadAction({id:record.id}))
 
-    }
-    const detailData = list.find((item)=>item.id == record.id);
-    this.setState({
-      detailData
-    })
-    this.detailShowModal();
-
-  }
 
   /*点击加载更多*/
   loadMore(){
@@ -102,7 +82,33 @@ class WorkOrder extends React.Component {
   }
 
   render(){
-    const {workOrder:{list, total, search:{page, rows}}} = this.props;
+    const {workOrder:{list, total, pending, search:{page, rows}}} = this.props;
+    const listProps = {
+      list,
+      total,
+      pending,
+      /*点击列表项显示详情*/
+      handleClick:(record)=>{
+        const {workOrder:{list},dispatch} = this.props;
+        if(record.haveRead==false){
+          const newList = list.map((item)=>{
+            if(record.id==item.id){
+              item.haveRead=true;
+            }
+            return item;
+          });
+          this.props.workOrder.list = newList;
+          dispatch(postHaveReadAction({id:record.id}))
+
+        }
+        const detailData = list.find((item)=>item.id == record.id);
+        this.setState({
+          detailData
+        })
+        this.detailShowModal();
+
+      }
+    }
     //详情页
     const detailProps = {
       handleOk:() =>{
@@ -146,7 +152,7 @@ class WorkOrder extends React.Component {
 
           <Col className="gutter-row" span={20} >
             <Card>
-              <List list={list} handleClick={(record)=>this.handleClick(record)} />
+              <List {...listProps} />
 
               <Col span={24} style={styles.loadMore} >
                 {

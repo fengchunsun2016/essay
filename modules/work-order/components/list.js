@@ -19,11 +19,11 @@ export  default class List extends React.Component {
     super(props);
     this.state = {
       visible:false,
-      loading:false,
     }
   }
 
   render(){
+    const {list,pending,handleClick} = this.props;
     const columns = [{
       title:'序号',
       dataIndex:'id',
@@ -70,7 +70,7 @@ export  default class List extends React.Component {
     }];
 
     const tableConfig = {
-      onRowClick:this.props.handleClick
+      onRowClick:handleClick
 
     }
     return (
@@ -78,9 +78,9 @@ export  default class List extends React.Component {
         {
           <Table
             size="default"
-            loading={this.state.loading}
+            loading={pending}
             columns={columns}
-            dataSource={this.props.list}
+            dataSource={list}
             rowKey="id"
             pagination={false}
             {...tableConfig}

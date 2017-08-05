@@ -103,6 +103,11 @@ export const CHANGE_SUCCESS = 'CHANGE_SUCCESS';
 
 
 /********************工单.start**********************/
+//请求数据中
+export const WORK_ORDER_PENDING = 'WORK_ORDER_PENDING';
+//请求数据完成
+export const WORK_ORDER_FULFILLED = 'WORK_ORDER_FULFILLED';
+
 //工单请求数据开始
 export const WORK_ORDER_LOAD = 'WORK_ORDER_LOAD';
 //请求数据成功
@@ -179,3 +184,22 @@ export const LOAD_DEAL_DETAIL_SUCCESS = 'LOAD_DEAL_DETAIL_SUCCESS';
 
 
 /********************交易流水.end**********************/
+
+
+
+
+/********************结算流水.start**********************/
+//加载数据中ing
+export const SETTLEMENT_PENGDING = 'SETTLEMENT_PENGDING';
+//加载数据完成
+export const SETTLEMENT_FULLFILLED = 'SETTLEMENT_FULLFILLED';
+//请求数据
+export const SETTLEMENT_LOAD = 'SETTLEMENT_LOAD';
+//请求数据成功
+export const SETTLEMENT_LOAD_SUCCESS = 'SETTLEMENT_LOAD_SUCCESS';
+//保存请求参数
+export const SAVE_SETTLEMENT_SEARCH = 'SAVE_SETTLEMENT_SEARCH';
+//页数或条数改变
+export const SETTLEMENT_CHANGE_ROWS = 'SETTLEMENT_CHANGE_ROWS';
+
+/********************结算流水.end**********************/

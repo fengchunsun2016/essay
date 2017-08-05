@@ -1,4 +1,4 @@
-import {WORK_ORDER_LOAD, WORK_ORDER_SUCCESS,LOAD_MORE_SUCCESS,POST_HAVE_READ_SUCCESS,POST_WORK_ORDER_SUCCESS} from '../constants/actionTypes';
+import {WORK_ORDER_LOAD, WORK_ORDER_SUCCESS,LOAD_MORE_SUCCESS,POST_HAVE_READ_SUCCESS,POST_WORK_ORDER_SUCCESS,WORK_ORDER_FULFILLED,WORK_ORDER_PENDING} from '../constants/actionTypes';
 
 const workOrderState = {
   //是否加载中
@@ -29,6 +29,11 @@ const workOrderState = {
 export default (state = workOrderState, action = {})=> {
   const {type} = action;
   switch (type) {
+    case WORK_ORDER_PENDING:
+      return {...state,pending:true};
+    case WORK_ORDER_FULFILLED:
+      return {...state,pending:false};
+
     case WORK_ORDER_LOAD:
       return {...state, pending: true};
     case WORK_ORDER_SUCCESS: {

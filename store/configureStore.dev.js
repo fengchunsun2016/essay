@@ -5,11 +5,8 @@ import nextReduxSaga from 'next-redux-saga'
 import createSagaMiddleware from 'redux-saga'
 import logger from 'redux-logger';
 
-
 import rootReducer,{defaultInitialState} from '../reducers'
-
 import rootSaga from '../sagas'
-
 const sagaMiddleware = createSagaMiddleware()
 
 export function configureStore (initialState = defaultInitialState) {

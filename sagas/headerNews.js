@@ -7,12 +7,13 @@ import {loadNewsSuccess} from '../modules/layout/actions';
 
 //加载未读消息
 function * newLoadSaga() {
-
   while (true){
     try {
-      let result = yield call(getHeaderNews);
-      let {data}=result;
-      yield put(loadNewsSuccess(data))
+      // 这里是不能获取数据的，无论是哪个方法
+      // let result = yield call(getHeaderNews);
+      // let {data}=result;
+      //  TODO 暂时关闭访问
+      //  yield put(loadNewsSuccess(data))
     } catch (e) {
       console.error(e);
     }

@@ -19,12 +19,14 @@ import mer from './mer';
 
 import deal from './deal';
 
+import settlement from './settlement';
+
 export const defaultInitialState = {
   auth: authState
 }
 
 //组装reducers
-const rootRecuders = combineReducers({
+const rootReducers = combineReducers({
   auth,
   menu,
   mainV,
@@ -37,8 +39,9 @@ const rootRecuders = combineReducers({
   changeP,
   mer,
   deal,
+  settlement,
 
 })
 
 
-export  default rootRecuders;
+export  default rootReducers;

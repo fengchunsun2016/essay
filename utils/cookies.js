@@ -17,6 +17,7 @@ export function getToken() {
 }
 
 export function setTokenCookie(value) {
+  cookies.token = value;
   jsCookie.set(config.tokenCookieName, value);
 }
 export function removeTokenCookie() {

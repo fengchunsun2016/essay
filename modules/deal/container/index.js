@@ -50,7 +50,7 @@ class Deal extends React.Component {
         dispatch(rowsAndPageChange({rows: pageSize, page: 1}))
         // this.props.deal.rows = pageSize;
         // this.props.deal.page = 1;
-        let queryData = {...search, page: 1, rows: pageSize};
+        let queryData = {...search, page: 1, rows: pageSize, type:0};
         dispatch(getDealAction(queryData));
       },
       //分页查询
@@ -58,7 +58,7 @@ class Deal extends React.Component {
          dispatch(rowsAndPageChange({rows: pageSize, page: page}))
         // this.props.deal.rows = pageSize;
         // this.props.deal.page = page;
-        let queryData = {...search, page, rows: pageSize};
+        let queryData = {...search, page, rows: pageSize, type:0};
         dispatch(getDealAction(queryData));
       },
       onRowClick:(orderNo)=>{

@@ -28,8 +28,9 @@ export function* login(action) {
 }
 
 export function* getMenusWithSaga() {
-  let result= yield call(getMenus);
-  if (result.tokenValid) {
+  // 这里是可以获取数据的
+  let result = yield call(getMenus);
+  if (result.data.tokenValid) {
     // 如果登录验证合格，更新state里的token
     // 因为服务器端未返回token，所以这里的合格的token，就是发起请求时带的token，即getToken()
     yield put({type:TOKEN_AUTH, result: getToken()})
