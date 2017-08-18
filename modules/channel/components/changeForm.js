@@ -1,4 +1,5 @@
 import React from 'react';
+import Router from 'next/router';
 import {Form, Input, Button} from 'antd';
 
 const FormItem = Form.Item;
@@ -14,7 +15,7 @@ class ChangeForm extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    let {form,submit}=this.props;
+    let {form, submit} = this.props;
     form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         try {
@@ -22,7 +23,6 @@ class ChangeForm extends React.Component {
         } catch (error) {
           console.log(error)
         }
-
       }else {
         console.log(err);
       }
@@ -130,7 +130,8 @@ class ChangeForm extends React.Component {
           )}
         </FormItem>
         <FormItem {...tailFormItemLayout}>
-          <Button type="primary" htmlType="submit">提交修改</Button>
+          <Button type="primary" htmlType="submit">提交密码</Button>
+          <Button onClick={()=>Router.back()} style={{marginLeft:20}}>返回</Button>
         </FormItem>
       </Form>
     )

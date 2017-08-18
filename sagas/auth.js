@@ -1,9 +1,9 @@
 /**
  * Created by lihejia on 2017/7/18.
  */
-import {put, call,takeLatest} from 'redux-saga/effects';
-import {PENDING, LOGIN, FULFILLED, TOKEN_AUTH, LOGIN_SUCCESS,MENU_SUCCESS,LOAD_MENUS} from '../constants/actionTypes';
-import {doLogin,getMenus} from '../services/auth';
+import {put, call, takeLatest} from 'redux-saga/effects';
+import {PENDING, LOGIN, SIGN_OUT, FULFILLED, TOKEN_AUTH, LOGIN_SUCCESS, ORIGIN_SUCCESS, LOAD_ORIGIN} from '../constants/actionTypes';
+import {doLogin, doLogout, getOrigin} from '../services/auth';
 
 import Router from 'next/router';
 import { setTokenCookie, getToken } from '../utils/cookies';
@@ -13,11 +13,13 @@ import { setTokenCookie, getToken } from '../utils/cookies';
  * @param action
  */
 export function* login(action) {
-  let {loginData} = action;
+  const {loginData} = action;
+  // 钩子，如果是登录，带一个loginRequest的标签，可以免token通过request
+  loginData.loginRequest = true;
   yield put({type: `${LOGIN}_${PENDING}`})
   try {
-    let result = yield call(doLogin, loginData);
-    setTokenCookie(result.data.token);
+    const result = yield call(doLogin, loginData);
+    result && result.data && setTokenCookie(result.data.token);
     yield put({type:LOGIN_SUCCESS,result})
     const url = Router.pathname === '/' ? '/main' : Router.pathname;
     Router.push(url);
@@ -27,21 +29,23 @@ export function* login(action) {
   yield put({type: `${LOGIN}_${FULFILLED}`})
 }
 
-export function* getMenusWithSaga() {
-  // 这里是可以获取数据的
-  let result = yield call(getMenus);
-  if (result.data.tokenValid) {
-    // 如果登录验证合格，更新state里的token
-    // 因为服务器端未返回token，所以这里的合格的token，就是发起请求时带的token，即getToken()
-    yield put({type:TOKEN_AUTH, result: getToken()})
-  } else {
-    // 如果登录过期，更新state里的token为null
-    yield put({type:TOKEN_AUTH, result: null})
+export function* logout() {
+  yield call(doLogout);
+}
+
+export function* getOriginWithSaga() {
+  try {
+    let result = yield call(getOrigin);
+    if ( result.data ) {
+      yield put({type:ORIGIN_SUCCESS, result: result.data});
+    }
+  } catch (e) {
+    console.log(e);
   }
-  yield put({type:MENU_SUCCESS,result:result.data})
 }
 
 export default [
-  takeLatest(LOGIN,login),
-  takeLatest(LOAD_MENUS,getMenusWithSaga)
+  takeLatest(LOGIN, login),
+  takeLatest(SIGN_OUT, logout),
+  takeLatest(LOAD_ORIGIN, getOriginWithSaga),
 ]

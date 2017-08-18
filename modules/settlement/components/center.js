@@ -3,7 +3,7 @@ import {Row, Col, Icon} from 'antd';
 
 
 
-export default ({amountTitle,arrivalAmountTitle,merFeeTitle})=>{
+export default ({amountTitle = 0, arrivalAmountTitle = 0, merFeeTitle = 0})=>{
 
   return (
     <div>

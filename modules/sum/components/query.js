@@ -13,6 +13,7 @@ import {
   Radio
 } from 'antd';
 
+
 const Option = Select.Option;
 const {MonthPicker, RangePicker} = DatePicker;
 const RadioGroup = Radio.Group;
@@ -30,6 +31,7 @@ class Query extends React.Component {
       requestType: 'month',
       startDate: moment(),
       endDate: moment(),
+      loading: false,
     }
     this.requestTypeChange = this.requestTypeChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -43,11 +45,14 @@ class Query extends React.Component {
     return current && current.valueOf() > Date.now();
   }
 
-  exportSubmit(e) {
-    e.preventDefault();
-    let {form, onExport} = this.props;
-    form.validateFields((err, values) => {
-      onExport(values);
+  async exportSubmit() {
+    this.setState({
+      loading: true
+    });
+    let {onExport} = this.props;
+    await onExport();
+    this.setState({
+      loading: false
     });
   }
 
@@ -55,13 +60,12 @@ class Query extends React.Component {
     e.preventDefault();
     let {form, onQuery} = this.props;
     form.validateFields((err, values) => {
+      console.log(values,'aaaaaaaaaaaaaaaaa')
+
       onQuery(values);
     });
   }
 
-  handleSelectChange() {
-
-  }
 
   requestTypeChange(e) {
     let {value} = e.target;
@@ -76,15 +80,18 @@ class Query extends React.Component {
     const {getFieldDecorator} = this.props.form;
     const rangeConfig = {
       initialValue: [moment(), moment()],
-      rules: [{type: 'array', required: true, message: '请选择日期!'}],
+      rules: [{type: 'array', message: '请选择日期!'}],
     }
     const config = {
       initialValue: moment(),
-      rules: [{type: 'object', required: true, message: '请选择日期!'}],
+      rules: [{type: 'object', message: '请选择日期!'}],
     };
     if ('day' == requestType) {
       return (
-        <div>
+        <FormItem
+          label="交易日期"
+        >
+
           {getFieldDecorator('payDate', rangeConfig)(
             <RangePicker
               disabledDate={this.disabledDate}
@@ -93,38 +100,52 @@ class Query extends React.Component {
               style={{width: 200}}
             />
           )}
-        </div>
+
+        </FormItem>
+
+
       )
 
     }
     if ('month' == requestType) {
       return (
-        <div>
-          {getFieldDecorator('startDate', config)(
-            <MonthPicker
-              size="default"
-              style={{width: 100}}
+        <span>
+          <FormItem
+            label="交易日期"
+          >
+            {getFieldDecorator('startDate', config)(
+              <MonthPicker
+                size="default"
+                style={{width: 80}}
 
-              disabledDate={this.disabledDate}
-              placeholder="月份"
-            />
-          )}
-          {getFieldDecorator('endDate', config)(
-            <MonthPicker
-              size="default"
+                disabledDate={this.disabledDate}
+                placeholder="月份"
+              />
+            )}
 
-              style={{width: 100}}
-              disabledDate={this.disabledDate}
-              placeholder="月份"
-            />
-          )}
-        </div>
+
+          </FormItem>
+          <FormItem>
+
+            {getFieldDecorator('endDate', config)(
+              <MonthPicker
+                size="default"
+
+                style={{width: 80}}
+                disabledDate={this.disabledDate}
+                placeholder="月份"
+              />
+            )}
+
+          </FormItem>
+        </span>
+
       )
     }
   }
 
   render() {
-    let {payType = [], form: {getFieldDecorator, resetFields}} = this.props;
+    let {payType = [], isServer, form: {getFieldDecorator, resetFields}} = this.props;
 
     let options = payType.map((item) => (
       <Option key={item.id}>{item.name}</Option>
@@ -145,7 +166,7 @@ class Query extends React.Component {
             })(
               <Input
                 size="default"
-                style={{width: 150}}
+                style={{width: 140}}
               />
             )}
           </FormItem>
@@ -167,25 +188,23 @@ class Query extends React.Component {
             label="支付种类"
           >
             {getFieldDecorator('payType', {
-              initialValue: '',
+              initialValue: 'all',
             })(
               <Select
                 size="default"
-                style={{width: 150}}
+                style={{width: 140}}
                 placeholder="选择支付种类"
               >
+                <Option key='all'>全部</Option>
                 {options}
               </Select>
             )}
           </FormItem>
 
-          <FormItem
-            label="交易日期"
-          >
 
             {this.selectDate()}
 
-          </FormItem>
+
           <FormItem>
             {getFieldDecorator('requestType', {
               initialValue: this.state.requestType,
@@ -213,6 +232,7 @@ class Query extends React.Component {
               type="primary"
               size="default"
               onClick={this.exportSubmit}
+              loading = {this.state.loading}
             >
               导出
             </Button>

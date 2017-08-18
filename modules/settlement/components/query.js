@@ -26,6 +26,7 @@ class Query extends React.Component {
       requestType:'month',
       startDate:moment(),
       endDate:moment(),
+      loading: false,
     }
 
     //查询
@@ -45,29 +46,38 @@ class Query extends React.Component {
     let {form, onQuery} = this.props;
     form.validateFields((err, values) =>{
 
-      onQuery(values);
-      let {mid, merchantName, status, date, payType, orderNo, minAmount, maxAmount} =values;
-      const dayFormat = 'YYYYMMDD';
-      let beginTime;
-      let endTime;
+      let {serialNo, status, date} =values;
+      const dayFormat = 'YYYY-MM-DD';
+      let startSettleTime;
+      let endSettleTime;
       if (date && date.length > 0) {
-        beginTime = date[0].format(dayFormat);
-        endTime = date[1].format(dayFormat)
+        startSettleTime = date[0].format(dayFormat);
+        endSettleTime = date[1].format(dayFormat)
       }
 
-      onQuery({mid, merchantName, status, payType, orderNo, minAmount, maxAmount, beginTime, endTime, type:1});
+      onQuery({serialNo, status, startSettleTime, endSettleTime});
+    });
+  }
+  async exportSubmit(e) {
+    this.setState({
+      loading: true,
+    });
+    let {onExport} = this.props;
+    await onExport();
+    this.setState({
+      loading: false,
     });
   }
 
   render(){
-    let {amountStatus = [], form: {getFieldDecorator, resetFields}} = this.props;
+    let {amountStatus = [], startDate = null, endDate = null, form: {getFieldDecorator, resetFields}} = this.props;
     //下拉列表
     let options = amountStatus.map((item) => (
       <Option key={item.id} >{item.name}</Option>
     ))
 
     const rangeConfig = {
-      initialValue:[moment().subtract(1, 'month'), moment()],
+      initialValue:[startDate?moment(startDate,'YYYY-MM-DD'):moment().subtract(1, 'month'), endDate?moment(endDate,'YYYY-MM-DD'):moment()],
       rules:[{type:'array', message:'请选择日期!'}],
     }
 
@@ -81,12 +91,12 @@ class Query extends React.Component {
               <FormItem
                 label="结算订单号"
               >
-                {getFieldDecorator('mid', {
+                {getFieldDecorator('serialNo', {
                   initialValue:'',
                 })(
                   <Input
                     size="default"
-                    style={{width:200}}
+                    style={{width:180}}
                   />
                 )}
               </FormItem>
@@ -98,13 +108,14 @@ class Query extends React.Component {
                 label="状态"
               >
                 {getFieldDecorator('status', {
-                  initialValue:null,
+                  initialValue:'all',
                 })(
                   <Select
                     size="default"
                     style={{width:100}}
                     placeholder="选择状态"
                   >
+                    <Option key='all' >全部</Option>
                     {options}
                   </Select>
                 )}
@@ -141,6 +152,15 @@ class Query extends React.Component {
                 htmlType="submit"
               >
                 查询
+              </Button>
+              <Button
+                style={{marginLeft: 8, background: '#00AA00'}}
+                type="primary"
+                size="default"
+                onClick={(e)=>this.exportSubmit(e)}
+                loading = {this.state.loading}
+              >
+                导出
               </Button>
               <Button
                 size="default"

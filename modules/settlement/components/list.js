@@ -16,13 +16,37 @@ export default ({pending, list = [], total = 0, onPageChange, onShowSizeChange, 
     dataIndex:'serialNo',
   }, {
     title:'结算金额（元）',
+    className:'column-amount',
     dataIndex:'amount',
+    render: (text) => {
+      return (
+        <p>
+          {text.toFixed(2)}
+        </p>
+      )
+    }
   }, {
     title:'到账金额（元）',
+    className:'column-arrivalAmount',
     dataIndex:'arrivalAmount',
+    render: (text) => {
+      return (
+        <p>
+          {text.toFixed(2)}
+        </p>
+      )
+    }
   }, {
     title:'手续费（元）',
+    className:'column-merFee',
     dataIndex:'merFee',
+    render: (text) => {
+      return (
+        <p>
+          {text.toFixed(2)}
+        </p>
+      )
+    }
   }, {
     title:'结算申请时间',
     dataIndex:'applyTime',
@@ -41,6 +65,7 @@ export default ({pending, list = [], total = 0, onPageChange, onShowSizeChange, 
   //分页配置参数
   const pagConfig = {
     total,
+    showTotal:total => `共 ${total} 条`,
     current:page,
     pageSize:rows,
     showSizeChanger:true,

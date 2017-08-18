@@ -20,5 +20,3 @@ Basic.getInitialProps = async ({store,isServer}) => {
 
 
 export default withAuth(Basic)
-
-

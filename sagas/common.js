@@ -8,16 +8,14 @@ import {getCommonItem} from '../services/common';
 
 //加载payTypes数据
 export function* loadCommonItemSaga() {
-  try{
-    // 获取需要的数据，
-    // TODO 判断返回的数据，如果是登录未通过，则要做出处理，来让withauth获得
-    // tokenCookie为false
+  try {
     let {data} =yield call(getCommonItem);
-    yield put(commonItemLoadSuccess(data));
-  }catch (e){
+    if (data) {
+      yield put(commonItemLoadSuccess(data));
+    }
+  } catch (e) {
     console.warn(e);
   }
-
 }
 
 export default [

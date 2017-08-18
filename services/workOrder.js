@@ -5,15 +5,15 @@ import {get, post} from '../utils/request';
  * @param param  参数
  * @returns {Promise.<*>}
  */
-export function getWorkOrder(param) {
-  return get('/worksheet/list',param)
+export async function getWorkOrder(param) {
+  return await get('/feedback/list',param)
 }
 
 /*
 * 进入详情（未读消息变已读）
 * */
-export function postHaveRead(data){
-  return post('/haveReadWorkOrder',data)
+export async function postHaveRead(data){
+  return await get('/feedback/readFeedback',data)
 
 }
 
@@ -24,8 +24,8 @@ export function postHaveRead(data){
  * @param data  参数
  * @returns {Promise.<*>}
  */
-export function submitWorkOrder(data) {
-  return post('/worksheet/submit',data)
+export async function submitWorkOrder(data) {
+  return await post('/feedback/commit',data)
 }
 
 export default {

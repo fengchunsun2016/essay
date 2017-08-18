@@ -5,10 +5,13 @@ import {connect} from 'react-redux';
 
 
 const styles = {
-  iconStyle : {
-    color:'#65ccf7',
-    marginRight:8
-}
+  iconStyle: {
+    color: '#65ccf7',
+    marginRight: 8
+  },
+  itemName: {
+    textAlign: 'right'
+  }
 }
 
 class SubBasic extends React.Component {
@@ -22,38 +25,38 @@ class SubBasic extends React.Component {
   }
 
 
-  handleTopClick(){
-    if(this.state.topIcon){
+  handleTopClick() {
+    if (this.state.topIcon) {
       this.setState({
-        topIcon:false
+        topIcon: false
       })
-    }else {
+    } else {
       this.setState({
-        topIcon:true
-      })
-    }
-  }
-
-  handleCenterClick(){
-    if(this.state.centerIcon){
-      this.setState({
-        centerIcon:false
-      })
-    }else {
-      this.setState({
-        centerIcon:true
+        topIcon: true
       })
     }
   }
 
-  handleBottomClick(){
-    if(this.state.bottomIcon){
+  handleCenterClick() {
+    if (this.state.centerIcon) {
       this.setState({
-        bottomIcon:false
+        centerIcon: false
       })
-    }else {
+    } else {
       this.setState({
-        bottomIcon:true
+        centerIcon: true
+      })
+    }
+  }
+
+  handleBottomClick() {
+    if (this.state.bottomIcon) {
+      this.setState({
+        bottomIcon: false
+      })
+    } else {
+      this.setState({
+        bottomIcon: true
       })
     }
   }
@@ -62,7 +65,7 @@ class SubBasic extends React.Component {
   render() {
     const {
       detailData:
-        {amount,createTime,isRefund,merName,merchantFee,mid,orderNo,payType,remark,serialNo,splitFee,status,succAmount}
+        {amount, createTime, isRefund, merName, merchantFee, mid, orderNo, payType, remark, serialNo, splitFee, status, succAmount}
     } = this.props.deal;
 
     return (
@@ -70,31 +73,46 @@ class SubBasic extends React.Component {
       <div className="main">
         <div className="top">
           <div className="title">
-            <Icon style={styles.iconStyle} type={this.state.topIcon ? 'up-circle-o' : 'down-circle-o'} onClick={()=>this.handleTopClick()} />
+            <Icon style={styles.iconStyle} type={this.state.topIcon ? 'up-circle-o' : 'down-circle-o'}
+                  onClick={()=>this.handleTopClick()}/>
             <span>基本信息</span>
           </div>
           {
-            this.state.topIcon?(<div className="content">
+            this.state.topIcon ? (<div className="content">
               <Row>
                 <Col span={8} offset={1}>
-                  <span>商户订单号:</span>
+                  <Col span={12} style={styles.itemName}>
+                    <span>商户订单号：</span>
+                  </Col>
+
                   <span>{orderNo}</span>
+
+
                 </Col>
-                <Col span={15}>
-                  <span>平台订单号:</span>
+                <Col span={8}>
+                  <Col span={12} style={styles.itemName}>
+                    <span>平台订单号：</span>
+                  </Col>
+
                   <span>{serialNo}</span>
                 </Col>
 
                 <Col span={8} offset={1}>
-                  <span>支付状态:</span>
+                  <Col span={12} style={styles.itemName}>
+                    <span>支付状态：</span>
+                  </Col>
+
                   <span>{status}</span>
                 </Col>
-                <Col span={15}>
-                  <span>交易时间:</span>
+                <Col span={8}>
+                  <Col span={12} style={styles.itemName}>
+                    <span>交易时间：</span>
+                  </Col>
+
                   <span>{createTime}</span>
                 </Col>
               </Row>
-            </div>):''
+            </div>) : ''
           }
 
 
@@ -102,48 +120,73 @@ class SubBasic extends React.Component {
 
         <div className="center">
           <div className="title">
-            <Icon  style={styles.iconStyle} type={this.state.centerIcon ? 'up-circle-o' : 'down-circle-o'} onClick={()=>this.handleCenterClick('centerCon')} />
+            <Icon style={styles.iconStyle} type={this.state.centerIcon ? 'up-circle-o' : 'down-circle-o'}
+                  onClick={()=>this.handleCenterClick('centerCon')}/>
             <span>商户信息</span>
           </div>
           {
-            this.state.centerIcon?( <div className="content">
+            this.state.centerIcon ? ( <div className="content">
               <Row>
                 <Col span={8} offset={1}>
-                  <span>商户号:</span>
+                  <Col span={12} style={styles.itemName}>
+                    <span>商户号：</span>
+                  </Col>
+
                   <span>{mid}</span>
                 </Col>
-                <Col span={15}>
-                  <span>商户名称:</span>
+                <Col span={8}>
+                  <Col span={12} style={styles.itemName}>
+                    <span>商户名称：</span>
+                  </Col>
+
                   <span>{merName}</span>
                 </Col>
 
-                <Col span={7} offset={1}>
-                  <span>是否退款:</span>
-                  <span>{isRefund}</span>
+                <Col span={8} offset={1}>
+                  <Col span={12} style={styles.itemName}>
+                    <span>是否退款：</span>
+                  </Col>
+
+                  <span>{isRefund == 'N' ? '否' : '是'}</span>
                 </Col>
-                <Col span={7}>
-                  <span>交易金额（元）:</span>
+                <Col span={8}>
+                  <Col span={12} style={styles.itemName}>
+                    <span>交易金额（元）：</span>
+                  </Col>
+
                   <span>{amount}</span>
                 </Col>
-                <Col span={9}>
-                  <span>支付种类:</span>
+                <Col span={7}>
+                  <Col span={12} style={styles.itemName}>
+                    <span>支付种类：</span>
+                  </Col>
+
                   <span>{payType}</span>
                 </Col>
 
-                <Col span={7} offset={1}>
-                  <span>商户手续费（元）:</span>
+                <Col span={8} offset={1}>
+                  <Col span={12} style={styles.itemName}>
+                    <span>商户手续费（元）：</span>
+                  </Col>
+
                   <span>{merchantFee}</span>
                 </Col>
-                <Col span={7}>
-                  <span>分润（元）:</span>
-                  <span>{splitFee}</span>
+                <Col span={8}>
+                  <Col span={12} style={styles.itemName}>
+                    <span>分润（元）：</span>
+                  </Col>
+
+                  <span>{splitFee ? splitFee : '0'}</span>
                 </Col>
-                <Col span={9}>
-                  <span>成功金额:</span>
+                <Col span={7}>
+                  <Col span={12} style={styles.itemName}>
+                    <span>成功金额（元）：</span>
+                  </Col>
+
                   <span>{succAmount}</span>
                 </Col>
               </Row>
-            </div>):''
+            </div>) : ''
           }
 
 
@@ -151,20 +194,21 @@ class SubBasic extends React.Component {
 
         <div className="bottom">
           <div className="title">
-            <Icon  style={styles.iconStyle} type={this.state.bottomIcon ? 'up-circle-o' : 'down-circle-o'} onClick={()=>this.handleBottomClick('bottomCon')} />
+            <Icon style={styles.iconStyle} type={this.state.bottomIcon ? 'up-circle-o' : 'down-circle-o'}
+                  onClick={()=>this.handleBottomClick('bottomCon')}/>
             <span>其他信息</span>
           </div>
           {
-            this.state.bottomIcon?(<div className="content">
+            this.state.bottomIcon ? (<div className="content">
               <Row>
-                <Col span={1} offset={2}>
-                  备注:
+                <Col span={3} style={{textAlign:'right'}}>
+                  备注：
                 </Col>
                 <Col>
                   {remark}
                 </Col>
               </Row>
-            </div>):''
+            </div>) : ''
           }
 
 

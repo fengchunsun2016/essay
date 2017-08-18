@@ -13,10 +13,12 @@ const SunIndex = (props) => {
 
   let {mer, common: {merchantStatus}, dispatch} = props;
   //获取sum参数信息
-  let {rows, search,titlePaySum,titlePayCount,titleFeeSum} = mer;
+  let {rows, search, search:{beginTime,endTime},titlePaySum,titlePayCount,titleFeeSum} = mer;
   //查询参数
   let queryProps = {
     merchantStatus,
+    startDate:beginTime,
+    endDate:endTime,
     //查询
     onQuery(data){
       //月份格式

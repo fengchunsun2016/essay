@@ -31,6 +31,13 @@ export function sumPending() {
     type:SUM_PENDING
   }
 }
+
+//加载完成
+export function sumLoaded() {
+  return {
+    type:'SUM_FULFILLED'
+  }
+}
 //保存查询数据
 export function saveQuery(data) {
   return {

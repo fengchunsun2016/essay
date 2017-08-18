@@ -8,11 +8,20 @@ import Link from 'next/link';
  * @param menus
  * @returns {XML}
  */
+const styles = {
+  arrow:{
+    position:'absolute',
+    top:21,
+    right:-13,
+    fontSize:14,
+    color:'#ececec'
+  }
+
+}
 export default ({url, menus = []}) => {
   let {pathname} = url;
   return (
     <Menu theme="dark" mode="inline" defaultSelectedKeys={['/main/index']} selectedKeys={[pathname]}>
-
       {
         menus.map((item) => {
           return (
@@ -21,15 +30,16 @@ export default ({url, menus = []}) => {
                 <a>
                   <Icon type={item.icon} />
                   <span className="nav-text">{item.title}</span>
+                  {
+                    pathname==item.path?<Icon type="caret-left" style={styles.arrow} />:''
+                  }
+
                 </a>
               </Link>
             </Menu.Item>
           )
         })
       }
-
     </Menu>
-
   )
-
 }

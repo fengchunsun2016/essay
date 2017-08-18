@@ -6,9 +6,14 @@ import {basicSuccess} from '../modules/channel/actions';
 
 
 function * basicLoadSaga() {
-  const result = yield call(getBasic);
-  const {data} = result;
-  yield put(basicSuccess(data));
+  try{
+    const result = yield call(getBasic);
+    const {data} = result;
+    yield put(basicSuccess(data));
+  }catch(err){
+    console.log(err)
+  }
+
 }
 export default [
   takeLatest(BASIC_LOAD,basicLoadSaga)

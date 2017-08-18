@@ -43,9 +43,9 @@ function * postHaveReadSaga(action){
 
 //提交工单
 function  * postWordOrderSaga(action){
-  const {data} = action;
+  const postData = action.data;
   try{
-    let result = yield call(submitWorkOrder,data);
+    let result = yield call(submitWorkOrder,postData);
     let {data} = result;
     yield put(postWorkOrderSuccess(data));
   }catch(err){

@@ -24,14 +24,16 @@ class Query extends React.Component {
     this.state = {
       //当前默认选中类型
       requestType:'month',
-      startDate:moment(),
-      endDate:moment(),
+      startDate:null,
+      endDate:null,
+      loading: false,
     }
 
     //查询
     this.handleSubmit = this.handleSubmit.bind(this);
     //禁止选择时间
-    this.disabledDate = this.disabledDate.bind(this)
+    this.disabledDate = this.disabledDate.bind(this);
+    this.exportSubmit = this.exportSubmit.bind(this);
   }
 
   //不准选择日期
@@ -45,9 +47,9 @@ class Query extends React.Component {
     let {form, onQuery} = this.props;
     form.validateFields((err, values) =>{
 
-      onQuery(values);
+
       let {mid, merchantName, status, date, payType, orderNo, minAmount, maxAmount} =values;
-      const dayFormat = 'YYYYMMDD';
+      const dayFormat = 'YYYY-MM-DD';
       let beginTime;
       let endTime;
       if (date && date.length > 0) {
@@ -55,12 +57,23 @@ class Query extends React.Component {
         endTime = date[1].format(dayFormat)
       }
 
-      onQuery({mid, merchantName, status, payType, orderNo, minAmount, maxAmount, beginTime, endTime, type:1});
+      onQuery({mid, merchantName, status, payType, orderNo, minAmount, maxAmount, beginTime, endTime});
+    });
+  }
+  async exportSubmit() {
+    this.setState({
+      loading: true,
+    });
+    let {onExport} = this.props;
+    await onExport();
+    this.setState({
+      loading: false,
     });
   }
 
+
   render(){
-    let {payType = [], payStatus = [], form: {getFieldDecorator, resetFields}} = this.props;
+    let {payType = [], endDate = null , startDate = null, payStatus = [], form: {getFieldDecorator, resetFields}} = this.props;
     //下拉列表
     let optionsType = payType.map((item) => (
       <Option key={item.id} >{item.name}</Option>
@@ -70,7 +83,7 @@ class Query extends React.Component {
     ))
 
     const rangeConfig = {
-      initialValue:[moment().subtract(1, 'month'), moment()],
+      initialValue:[startDate?moment(startDate,'YYYY-MM-DD'):moment().subtract(1, 'month'), endDate?moment(endDate,'YYYY-MM-DD'):moment()],
       rules:[{type:'array', message:'请选择日期!'}],
     }
 
@@ -83,6 +96,7 @@ class Query extends React.Component {
             <Col span={7} >
               <FormItem
                 label="商户号"
+                style={{marginLeft:24}}
               >
                 {getFieldDecorator('mid', {
                   initialValue:'',
@@ -113,13 +127,14 @@ class Query extends React.Component {
                 label="支付种类"
               >
                 {getFieldDecorator('payType', {
-                  initialValue:null,
+                  initialValue:'all',
                 })(
                   <Select
                     size="default"
                     style={{width:100}}
                     placeholder="选择支付种类"
                   >
+                    <Option key='all' >全部</Option>
                     {optionsType}
                   </Select>
                 )}
@@ -130,13 +145,14 @@ class Query extends React.Component {
                 label="状态"
               >
                 {getFieldDecorator('status', {
-                  initialValue:null,
+                  initialValue:'all',
                 })(
                   <Select
                     size="default"
                     style={{width:100}}
                     placeholder="选择状态"
                   >
+                    <Option key='all' >全部</Option>
                     {optionsStatus}
                   </Select>
                 )}
@@ -194,6 +210,7 @@ class Query extends React.Component {
                     ranges={{今天:[moment(), moment()]}}
                     size="default"
                     style={{width:200}}
+
                   />
                 )}
 
@@ -213,6 +230,15 @@ class Query extends React.Component {
                 htmlType="submit"
               >
                 查询
+              </Button>
+              <Button
+                style={{marginLeft: 8, background: '#00AA00'}}
+                type="primary"
+                size="default"
+                onClick={this.exportSubmit}
+                loading={this.state.loading}
+              >
+                导出
               </Button>
               <Button
                 size="default"

@@ -37,6 +37,8 @@ export default (state = messageState, action = {}) => {
     }
     case 'MESSAGE_PENDING':
       return {...state, pending: true}
+    case 'MESSAGE_FULFILLED':
+      return {...state, pending: false}
     //加载list成功
     case 'MESSAGE_SUCCESS': {
       let {list, total} = action.data;
@@ -81,7 +83,7 @@ function messageRead(list, data) {
 
   return list.map((item, index) => {
     if (item.id === data.id) {
-      item.status = false;
+      item.haveRead = 1;
     }
     return item;
   })

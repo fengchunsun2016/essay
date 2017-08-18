@@ -14,7 +14,7 @@ const {RangePicker} = DatePicker;
  * @param merPayLineChartTitle 交易数据
  * @returns {React Component}
  */
-export default ({beginTime, endTime, onOk, merPayLineChartTitle}) => {
+export default ({beginTime, endTime, startDate = null, endDate = null, onOk, merPayLineChartTitle = {}}) => {
 
 
   function disabledDate(current) {
@@ -35,9 +35,10 @@ export default ({beginTime, endTime, onOk, merPayLineChartTitle}) => {
             <Col span={12}>
               <RangePicker
                 disabledDate={disabledDate}
-                ranges={{今天: [moment(), moment()], '当月': [moment(), moment().endOf('month')]}}
-                defaultValue={[moment(beginTime), moment(endTime)]}
+                ranges={{今天: [moment().startOf('day'), moment().endOf('day')], '当月': [moment().startOf('month'), moment().endOf('month')]}}
+                defaultValue={[startDate?moment(startDate,'YYYY-MM-DD'):moment(beginTime), endDate?moment(endDate,'YYYY-MM-DD'):moment(endTime)]}
                 onChange={onOk}
+                style={{minWidth:200}}
               />
 
             </Col>
@@ -68,7 +69,7 @@ export default ({beginTime, endTime, onOk, merPayLineChartTitle}) => {
                   <span className="num">{merPayLineChartTitle && merPayLineChartTitle.succCountTitle}</span>
                   <span>笔</span>
                 </div>
-                <div className="text">交易笔数</div>
+                <div className="text">成功交易笔数</div>
               </div>
             </Col>
             <Col span={6}>

@@ -13,7 +13,11 @@ import config from '../config/config.json';
 const cookies = {};
 
 export function getToken() {
-  return cookies.token;
+  let token = cookies.token;
+  if (!token) {
+    token = jsCookie.get(config.tokenCookieName);
+  }
+  return token;
 }
 
 export function setTokenCookie(value) {

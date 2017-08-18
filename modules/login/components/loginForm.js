@@ -3,6 +3,10 @@ import {Row, Col, Form, Icon, Input, Button} from 'antd';
 
 const FormItem = Form.Item;
 
+function trim(str){ //删除左右两端的空格
+  return str.replace(/(^\s*)|(\s*$)/g, "");
+}
+
 /**
  * 用户登录Form窗口
  */
@@ -12,6 +16,9 @@ const NormalLoginForm = ({onChangeVcode, keyID, vcodeUri, pending, onLogin, form
     e.preventDefault();
     validateFields((err, values) => {
       if (!err) {
+        for(var key in values){
+          values[key] = trim(values[key])
+        }
         values.keyID = keyID;
         onLogin(values)
       }

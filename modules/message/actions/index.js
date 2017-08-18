@@ -29,6 +29,12 @@ export function loading() {
   }
 }
 
+export function loaded() {
+  return {
+    type: 'MESSAGE_FULFILLED'
+  }
+}
+
 /**
  * 显示modal
  */

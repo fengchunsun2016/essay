@@ -2,7 +2,7 @@
  * Created by lihejia on 2017/7/25.
  */
 import React from 'react';
-import {Table} from 'antd';
+import {Table, Card} from 'antd';
 
 
 /***
@@ -19,14 +19,12 @@ export default ({page = 1, rows = 10, payType = [], pending, total = 0, list = [
   const columns = [{
     title: '序号',
     dataIndex: 'id',
-    width: '5%',
     render: (text, item, index) => (
       index + 1
     )
   }, {
     title: '商户号',
     dataIndex: 'mid',
-    width: '15%',
     render: (text, item) => {
       return (
         <p>
@@ -39,10 +37,8 @@ export default ({page = 1, rows = 10, payType = [], pending, total = 0, list = [
   }, {
     title: '商户名称',
     dataIndex: 'merName',
-    width: '20%',
   }, {
     title: '支付种类',
-    width: '10%',
     dataIndex: 'payType',
     render: (text) => {
       let resultText=text;
@@ -60,21 +56,44 @@ export default ({page = 1, rows = 10, payType = [], pending, total = 0, list = [
 
   }, {
     title: '分润金额(元)',
-    width: '10%',
+    className:'column-feeSum',
     dataIndex: 'feeSum',
+    render: (text, item) => {
+      return (
+        <p>
+          {text.toFixed(2)}
+        </p>
+      )
+    }
   }, {
     title: '交易笔数(笔)',
-    width: '10%',
+    className:'column-payCount',
     dataIndex: 'payCount',
+    render: (text, item) => {
+      return (
+        <p>
+          {text.toFixed(2)}
+        </p>
+      )
+    }
   }, {
     title: '交易金额(元)',
+    className:'column-paySum',
     dataIndex: 'paySum',
+    render: (text, item) => {
+      return (
+        <p>
+          {text.toFixed(2)}
+        </p>
+      )
+    }
   }];
 
 
   //分页配置参数
   const pagConfig = {
     total,
+    showTotal:total => `共 ${total} 条`,
     current: page,
     pageSize: rows,
     showSizeChanger: true,
@@ -88,13 +107,17 @@ export default ({page = 1, rows = 10, payType = [], pending, total = 0, list = [
   }
 
   return (
-    <Table
-      size="middle"
-      loading={pending}
-      columns={columns}
-      dataSource={list}
-      pagination={pagConfig}
-      rowKey="mid"
-    />
+    <Card>
+      <Table
+        size="middle"
+        loading={pending}
+        columns={columns}
+        dataSource={list}
+        pagination={pagConfig}
+        rowKey="rowNum"
+
+      />
+    </Card>
+
   )
 }

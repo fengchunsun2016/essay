@@ -1,6 +1,5 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import Router from 'next/router';
 import {Icon} from 'antd';
 import LoginForm from '../components/loginForm';
 import {doLogin} from '../actions/login';
@@ -19,6 +18,11 @@ class Login extends React.Component {
 
   componentDidMount(){
     this.vode();
+    this.timer = setInterval(()=>{console.log('vodeeeeeeeeeeeeeeee');this.vode()},50000);
+  }
+  componentWillUnmount(){
+    clearInterval(this.timer);
+    clearInterval(this.timerTwo);
   }
 
   //生成验证码
@@ -46,8 +50,11 @@ class Login extends React.Component {
           that.vode();
       },
       //登录
-      onLogin (data) {
+      onLogin : (data)=> {
+        const {token} = this.props.auth;
         dispatch(doLogin(data));
+
+         this.timerTwo = setTimeout(that.vode,2000);
       }
     }
     return (

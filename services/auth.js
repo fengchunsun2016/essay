@@ -5,25 +5,22 @@ import { get ,post} from '../utils/request';
 
 
 /***
- * 获取验证码请求
+ * 登录请求
  * @returns {Promise.<void>}
  */
-export  async function getVerify() {
-  return await get('/verify');
-}
 
 export async function doLogin(data){
   return await post('/user/login',data);
 }
 
+export async function doLogout(){
+  return await get('/login/logout');
+}
 /**
  * 获取菜单
  * @returns {Promise.<void>}
  */
-export async function getMenus() {
-  return await get('/main/menu');
+export async function getOrigin() {
+  return await get('/main/origin');
 }
 
-export async function getUser() {
-  return await get('/')
-}

@@ -47,8 +47,8 @@ class Query extends React.Component {
     let {form, onQuery} = this.props;
     form.validateFields((err, values) => {
 
-      let {mid,merName,status,date} =values;
-      const dayFormat='YYYYMMDD';
+      let {mid,merchantName,status,date} =values;
+      const dayFormat='YYYY-MM-DD';
       let beginTime;
       let endTime;
       if(date&&date.length>0){
@@ -56,19 +56,19 @@ class Query extends React.Component {
         endTime=date[1].format(dayFormat)
       }
 
-      onQuery({mid,merName,status,beginTime,endTime});
+      onQuery({mid,merchantName,status,beginTime,endTime});
     });
   }
 
   render() {
-    let {merchantStatus = [], form: {getFieldDecorator, resetFields}} = this.props;
+    let {merchantStatus = [], startDate = null, endDate = null, form: {getFieldDecorator, resetFields}} = this.props;
     //下拉列表
     let options = merchantStatus.map((item) => (
       <Option key={item.id}>{item.name}</Option>
     ))
 
     const rangeConfig = {
-      initialValue: [moment().subtract(1, 'month'), moment()],
+      initialValue: [startDate?moment(startDate,'YYYY-MM-DD'):moment().subtract(1, 'month'), endDate?moment(endDate,'YYYY-MM-DD'):moment()],
       rules: [{type: 'array', message: '请选择日期!'}],
     }
 
@@ -92,7 +92,7 @@ class Query extends React.Component {
           <FormItem
             label="商户名称"
           >
-            {getFieldDecorator('merName', {
+            {getFieldDecorator('merchantName', {
               initialValue: '',
             })(
               <Input
@@ -105,13 +105,14 @@ class Query extends React.Component {
             label="状态"
           >
             {getFieldDecorator('status', {
-              initialValue: null,
+              initialValue: 'all',
             })(
               <Select
                 size="default"
                 style={{width: 150}}
                 placeholder="选择支付种类"
               >
+                <Option key='all'>全部</Option>
                 {options}
               </Select>
             )}

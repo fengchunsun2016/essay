@@ -3,7 +3,7 @@ import {Table} from 'antd';
 
 
 
-export default ({pending, onRowClick, list = [], total = 0, onPageChange, onShowSizeChange, rows = 10, page = 1}) =>{
+export default ({pending, onRowClick, list = [], total = 0, onPageChange, onShowSizeChange, rows = 10, page = 1,clientWidth}) =>{
   const columns = [{
     title:'序号',
     dataIndex:'id',
@@ -22,13 +22,37 @@ export default ({pending, onRowClick, list = [], total = 0, onPageChange, onShow
     dataIndex:'payType',
   }, {
     title:'交易金额（元）',
+    className:'column-amount',
     dataIndex:'amount',
+    render: (text) => {
+      return (
+        <p>
+          {text.toFixed(2)}
+        </p>
+      )
+    }
   }, {
     title:'商户手续费（元）',
+    className:'column-merchantFee',
     dataIndex:'merchantFee',
+    render: (text) => {
+      return (
+        <p>
+          {text.toFixed(2)}
+        </p>
+      )
+    }
   }, {
     title:'分润（元）',
+    className:'column-orgMerFee',
     dataIndex:'orgMerFee',
+    render: (text) => {
+      return (
+        <p>
+          {text.toFixed(2)}
+        </p>
+      )
+    }
   }, {
     title:'状态',
     dataIndex:'status',
@@ -45,7 +69,7 @@ export default ({pending, onRowClick, list = [], total = 0, onPageChange, onShow
     title:'操作',
     dataIndex:'11',
     render:(text, item ) => (
-      <span style={{color:'blue'}} onClick={()=>onRowClick(item.orderNo)}>详情</span>
+      <span style={{color:'#118eea',cursor:'pointer'}} onClick={()=>onRowClick({mid:item.mid,serialNo:item.serialNo})}>详情</span>
     )
   }];
 
@@ -53,6 +77,7 @@ export default ({pending, onRowClick, list = [], total = 0, onPageChange, onShow
   //分页配置参数
   const pagConfig = {
     total,
+    showTotal:total => `共 ${total} 条`,
     current:page,
     pageSize:rows,
     showSizeChanger:true,
@@ -73,9 +98,10 @@ export default ({pending, onRowClick, list = [], total = 0, onPageChange, onShow
       columns={columns}
       dataSource={list}
       pagination={pagConfig}
-      rowKey="mid"
+      rowKey="serialNo"
+      style={{whiteSpace : 'nowrap'}}
+      scroll={clientWidth&&clientWidth<1450?{x:1200}:{x:'100%'}}
     />
-
 
   )
 }

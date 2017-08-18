@@ -8,18 +8,18 @@ import {DEAL_PENGDING, DEAL_FULLFILLED, DEAL_LOAD, LOAD_DEAL_DETAIL} from '../co
  * 加载交易流水数据
  * */
 function * dealLoadSaga(action){
-  const {data} = action;
-  put({type:DEAL_PENGDING});
+  const queryData = action.data;
+
+  yield put({type:DEAL_PENGDING});
   try {
-    let result = yield call(getDeal, data);
-    // console.log(result,'+++++++++++++++++++++++++++');
+    let result = yield call(getDeal, queryData);
     let {data} = result;
     yield put(getDealSuccess(data));
   }catch (err) {
     console.log(err);
   }
 
-  put({type:DEAL_FULLFILLED})
+  yield put({type:DEAL_FULLFILLED})
 
 }
 
@@ -27,11 +27,10 @@ function * dealLoadSaga(action){
 * 加载交易流水详情
 * */
 function * dealDetailLoadSaga(action) {
-  const param = action;
+  const param = action.param;
   try{
     let result = yield call(getDealDetail,param);
     let {data} = result;
-    console.log(data,'详情详情详情详情详情')
     yield put(getDealDetailSuccess(data));
   }catch(err){
     console.log(err);

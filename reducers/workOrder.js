@@ -1,4 +1,12 @@
+import {notification} from 'antd';
 import {WORK_ORDER_LOAD, WORK_ORDER_SUCCESS,LOAD_MORE_SUCCESS,POST_HAVE_READ_SUCCESS,POST_WORK_ORDER_SUCCESS,WORK_ORDER_FULFILLED,WORK_ORDER_PENDING} from '../constants/actionTypes';
+
+const openNotificationWithIcon = (type) =>{
+  notification[type]({
+    message:'恭喜!!!',
+    description:'您的工单已提交成功！',
+  });
+};
 
 const workOrderState = {
   //是否加载中
@@ -57,6 +65,10 @@ export default (state = workOrderState, action = {})=> {
       return {...state,postHaveRead:state.postHaveRead+1}
     }
     case POST_WORK_ORDER_SUCCESS:{
+      if(action.data.code==200){
+        openNotificationWithIcon('success');
+      }
+
       const {data} = action;
       return {...state,submitWorkOrder:true}
     }

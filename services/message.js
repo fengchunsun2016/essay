@@ -2,7 +2,7 @@
  * Created by lihejia on 2017/7/22.
  */
 
-import {get} from '../utils/request';
+import {get, getFile} from '../utils/request';
 
 /**
  * 加载系统公告
@@ -20,4 +20,8 @@ export async function loadmessageList(queryData) {
  */
 export async function loadMessageDetail(data){
   return await get('/announcement/detail',data)
+}
+
+export async function getMessageFile(filePath){
+  return await getFile(filePath)
 }

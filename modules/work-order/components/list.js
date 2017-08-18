@@ -27,7 +27,6 @@ export  default class List extends React.Component {
     const columns = [{
       title:'序号',
       dataIndex:'id',
-      width:'10%',
       render:(text, item, index) =>{
         return (
           <p>
@@ -38,13 +37,13 @@ export  default class List extends React.Component {
     }, {
       title:'标题',
       dataIndex:'issueTitle',
-      width:'60%',
       render:(text, item) =>{
         return (
           <p>
             {text}
             {
-              !item.haveRead?<span style={styles.haveRead} />:''
+              item.status==2?(item.haveRead==2?'':<span style={styles.haveRead} />):''
+
             }
 
           </p>
@@ -54,7 +53,6 @@ export  default class List extends React.Component {
     }, {
       title:'反馈时间',
       dataIndex:'feedbackTime',
-      width:'15%'
     }, {
       title:'工单状态',
       dataIndex:'status',
@@ -62,8 +60,10 @@ export  default class List extends React.Component {
         // console.log(item);
         return (
           <p>
-            {item.status ? (<span style={{color:'#48c545'}} >已解决</span>) : (
-              <span style={{color:'#d8a12d'}} >未解决</span>)}
+            {item.status==2 ?
+              (<span style={{color:'#48c545'}} >已解决</span>)
+              : (<span style={{color:'#d8a12d'}} >待解决</span>)
+               }
           </p>
         )
       }
@@ -81,7 +81,7 @@ export  default class List extends React.Component {
             loading={pending}
             columns={columns}
             dataSource={list}
-            rowKey="id"
+            rowKey="feedbackNo"
             pagination={false}
             {...tableConfig}
           />

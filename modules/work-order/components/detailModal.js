@@ -4,7 +4,8 @@ import {Modal, Button, Row, Col} from 'antd';
 const styles = {
   all:{
     padding:'20px 0',
-    fontSize:'14px'
+    fontSize:'14px',
+    overflowWrap: 'break-word',
   },
   name:{
     fontWeight:700
@@ -18,7 +19,6 @@ export default ({visible, detailData, handleOk, handleCancel})=>{
     <div>
       <Modal
         visible={visible}
-        closable={false}
         onOk={handleOk}
         onCancel={handleCancel}
         maskClosable={false}

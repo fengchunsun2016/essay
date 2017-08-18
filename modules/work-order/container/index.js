@@ -90,18 +90,18 @@ class WorkOrder extends React.Component {
       /*点击列表项显示详情*/
       handleClick:(record)=>{
         const {workOrder:{list},dispatch} = this.props;
-        if(record.haveRead==false){
+        if(record.haveRead==1){
           const newList = list.map((item)=>{
-            if(record.id==item.id){
-              item.haveRead=true;
+            if(record.feedbackNo==item.feedbackNo){
+              item.haveRead=2;
             }
             return item;
           });
           this.props.workOrder.list = newList;
-          dispatch(postHaveReadAction({id:record.id}))
+          dispatch(postHaveReadAction({feedbackNo:record.feedbackNo}))
 
         }
-        const detailData = list.find((item)=>item.id == record.id);
+        const detailData = list.find((item)=>item.feedbackNo == record.feedbackNo);
         this.setState({
           detailData
         })
@@ -111,19 +111,6 @@ class WorkOrder extends React.Component {
     }
     //详情页
     const detailProps = {
-      handleOk:() =>{
-        this.setState({
-          detailLoading:true
-        });
-        setTimeout(() =>{
-          this.setState({
-            detailLoading:false,
-            detailVisible:false
-
-          });
-        }, 1000);
-      },
-
       handleCancel:() =>{
         this.setState({
           detailVisible:false
@@ -156,7 +143,7 @@ class WorkOrder extends React.Component {
 
               <Col span={24} style={styles.loadMore} >
                 {
-                  total / rows + 1 > page ? <Button onClick={()=>this.loadMore()} >加载更多...</Button> : <Button>我是有底线的...</Button>
+                  total / rows > page ? <Button onClick={()=>this.loadMore()} >加载更多...</Button> : <div style={{padding:'6px 15px',background:'#ccc',borderRadius:5}}>没有更多内容了...</div>
                 }
               </Col>
             </Card>

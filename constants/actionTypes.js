@@ -24,12 +24,14 @@ export const COMMON_ITEM_LOAD_SUCCESS='COMMON_ITEM_LOAD_SUCCESS';
 
 
 /********************login.start**********************/
- //使用token请求数据，无论成功与否都要更新一下token
+//使用token请求数据，无论成功与否都要更新一下token
 export const TOKEN_AUTH='TOKEN_AUTH';
- //登陆成功
+//登陆成功
 export const LOGIN_SUCCESS='LOGIN_SUCCESS';
 //登陆失败
 export const LOGIN_ERROR='LOGIN_ERROR';
+//清除token
+export const RESET_TOKEN='RESET_TOKEN';
 /***
  * 登录
  * @type {string}
@@ -38,11 +40,12 @@ export const LOGIN='LOGIN';
 /***获取验证码*/
 export const LOAD_VERIFY='LOAD_VERIFY';
 
+export const SIGN_OUT = 'SIGN_OUT';
+
 /********************login.end**********************/
 //菜单加载成功
-export const MENU_SUCCESS='MENU_SUCCESS';
-
-export const LOAD_MENUS='LOAD_MENUS';
+export const ORIGIN_SUCCESS='ORIGIN_SUCCESS';
+export const LOAD_ORIGIN='LOAD_ORIGIN';
 
 
 
@@ -54,12 +57,11 @@ export const LOAD_MAINV_SUCCESS='LOAD_MAINV_SUCCESS';
 
 
 /********************header.start**********************/
-//加载头部信息
-export const HEADER_LOAD_NEWS = 'HEADER_LOAD_NEWS';
-
-//头部信息加载成功
-export const HEADER_NEWS_SUCCESS = 'HEADER_NEWS_SUCCESS';
-
+// //加载头部信息
+// export const HEADER_LOAD_NEWS = 'HEADER_LOAD_NEWS';
+//
+// //头部信息加载成功
+// export const HEADER_NEWS_SUCCESS = 'HEADER_NEWS_SUCCESS';
 /********************header.end**********************/
 
 
@@ -203,3 +205,11 @@ export const SAVE_SETTLEMENT_SEARCH = 'SAVE_SETTLEMENT_SEARCH';
 export const SETTLEMENT_CHANGE_ROWS = 'SETTLEMENT_CHANGE_ROWS';
 
 /********************结算流水.end**********************/
+
+/*********************账户明细.start**********************/
+export const ACCOUNT_LOAD         = 'ACCOUNT_LOAD';
+export const ACCOUNT_FULFILLED    = 'ACCOUNT_FULFILLED';
+export const ACCOUNT_LOADED       = 'ACCOUNT_LOADED';
+export const ACCOUNT_ROWS_CHANGE  = 'ACCOUNT_ROWS_CHANGE';
+export const ACCOUNT_QUERY_CHANGE = 'ACCOUNT_QUERY_CHANGE';
+/*********************账户明细.end************************/

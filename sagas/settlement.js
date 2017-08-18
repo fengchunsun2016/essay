@@ -6,9 +6,9 @@ import {SETTLEMENT_LOAD,SETTLEMENT_PENGDING,SETTLEMENT_FULLFILLED} from '../cons
 /*加载交易流水数据*/
 function * getSettlementSaga(action) {
   yield put({type:SETTLEMENT_PENGDING});
-  const {data} = action;
+  const queryData = action.data;
   try{
-    let result = yield call(getSettlement,data);
+    let result = yield call(getSettlement,queryData);
     const {data} = result;
     yield put(settlementSuccess(data));
 

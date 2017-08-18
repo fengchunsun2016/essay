@@ -1,40 +1,17 @@
 import React from 'react';
 import {Row, Col, notification} from 'antd';
-
 import {connect} from 'react-redux';
-import router from 'next/router';
 import {postChange} from '../actions';
 import ChangeForm from '../components/changeForm';
 
 class SubChange extends React.Component {
-  warn(type, title, des){
-    const openNotificationWithIcon = (type) =>{
-      notification[type]({
-        message:title,
-        description:des,
-      });
-    };
-    openNotificationWithIcon(type);
-  }
   render(){
     //ChangeForm
     const formProps = {
-      submit:(data)=>{
-        const {dispatch,changeP:{changeSuccess,changeData}} = this.props;
-        dispatch(postChange({password:data.oldPassword, newPassword:data.password}));
-        if(changeSuccess){
-          this.props.auth.token = changeData.token;
-          this.props.changeP.changeSuccess = false;
-
-          this.warn('success','恭喜！','您的密码已修改成功！');
-          router.back();
-        }
-        /*post('/changePassword', {password:data.oldPassword, newPassword:data.password}).then((data)=>{
-          data = data.data;
-          this.props.auth.token = data.token;
-          router.back();
-          this.warn('success','恭喜！','您的密码已修改成功！')
-        })*/
+      submit: (data)=>{
+        const { dispatch } = this.props;
+        
+        dispatch(postChange({passWord:data.oldPassword, newPassWord:data.password}));
       }
     }
     return (

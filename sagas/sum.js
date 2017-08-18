@@ -3,7 +3,7 @@
  */
 import {call,put,takeLatest} from 'redux-saga/effects';
 import {SUM_LOAD} from '../constants/actionTypes';
-import {sumPending,sumLoadSuccess} from '../modules/sum/actions';
+import {sumPending,sumLoadSuccess,sumLoaded} from '../modules/sum/actions';
 import {getSum} from '../services/sum';
 
 //加载数据
@@ -18,6 +18,7 @@ export function* sumLoadBySearch (action) {
   }catch (e){
     console.log('sumLoadBySearch error',e)
   }
+  yield put(sumLoaded())
 }
 
 export default [

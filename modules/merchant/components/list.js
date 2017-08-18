@@ -20,14 +20,12 @@ export default ({page = 1, rows = 10, merchantStatus = [], pending, total = 0, l
   const columns = [{
     title: '序号',
     dataIndex: 'id',
-    width: '5%',
     render: (text, item, index) => (
       index + 1
     )
   }, {
     title: '商户号',
     dataIndex: 'mid',
-    width: '15%',
     render: (text, item) => {
       return (
         <p>
@@ -39,20 +37,16 @@ export default ({page = 1, rows = 10, merchantStatus = [], pending, total = 0, l
 
   }, {
     title: '商户名称',
-    dataIndex: 'merchantName',
-    width: '20%',
+    dataIndex: 'merName',
   }, {
     title: '联系人',
-    width: '10%',
-    dataIndex: 'contact',
+    dataIndex: 'bizContact',
 
   }, {
     title: '手机号',
-    width: '10%',
-    dataIndex: 'mobile',
+    dataIndex: 'bizMobile',
   }, {
     title: '状态',
-    width: '10%',
     dataIndex: 'status',
     render: (text) => {
       let resultText=text;
@@ -74,6 +68,7 @@ export default ({page = 1, rows = 10, merchantStatus = [], pending, total = 0, l
   //分页配置参数
   const pagConfig = {
     total,
+    showTotal:total => `共 ${total} 条`,
     current: page,
     pageSize: rows,
     showSizeChanger: true,

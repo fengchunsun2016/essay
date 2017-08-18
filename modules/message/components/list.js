@@ -16,7 +16,7 @@ const columns = [{
     return (
       <p>
         {text}
-        <span className={item.status ? 'hasRead' : ''} />
+        <span className={item.haveRead==0 ? 'hasRead' : ''} />
       </p>
     )
   }
@@ -32,6 +32,7 @@ export default ({pending, onRowClick, list = [], total = 0, onPageChange, rows =
   //分页配置参数
   const pagConfig = {
     total,
+    showTotal:total => `共 ${total} 条`,
     current: page,
     pageSize: rows,
     showSizeChanger: true,

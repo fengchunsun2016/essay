@@ -45,11 +45,16 @@ export default (state = sumState, action = {}) => {
     //加载数据ing
     case SUM_PENDING:
       return {...state, pending: true}
+    case 'SUM_FULFILLED':
+      return {...state, pending: false}
     //加载数据成功
     case SUM_LOAD_SUCCESS: {
-      let {list, total, titleFeeSum, titlePayCount, titlePaySum} = action.data.data;
-
-      return {...state, list, total, titleFeeSum, titlePaySum, titlePayCount, pending: false}
+      if(action.data&&action.data.data&&(action.data.data.titleFeeSum||action.data.data.titleFeeSum==0)){
+        let {list, total, titleFeeSum, titlePayCount, titlePaySum} = action.data.data;
+        return {...state, list, total, titleFeeSum, titlePaySum, titlePayCount, pending: false}
+      }
+      let {list, total} = action.data.data;
+      return {...state, list, total, pending: false}
     }
     default:
       return state;

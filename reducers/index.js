@@ -21,6 +21,8 @@ import deal from './deal';
 
 import settlement from './settlement';
 
+import account from './account';
+
 export const defaultInitialState = {
   auth: authState
 }
@@ -40,7 +42,7 @@ const rootReducers = combineReducers({
   mer,
   deal,
   settlement,
-
+  account,
 })
 
 

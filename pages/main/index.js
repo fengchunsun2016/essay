@@ -13,6 +13,7 @@ const DynamicMainTV = dynamic(import('../../modules/main-tv/containers/index'),{
     <Spin size="large" />
   )
 })
+// import DynamicMainTV from '../../modules/main-tv/containers/index'
 
 const MainIndex =(props)=>{
   return(

@@ -6,9 +6,13 @@ import {LOAD_MAINV_SUCCESS} from '../constants/actionTypes';
 
 const vState={
   //交易统计信息
-  merPayLineChartTitle:null,
+  merPayLineChartTitle:{},
   //交易信息列表
-  merPayLineChartList:null,
+  merPayLineChartList:[],
+  search:{
+    startDate:null,
+    endDate:null
+  }
 }
 
 /**

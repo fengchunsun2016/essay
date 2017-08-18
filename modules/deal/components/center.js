@@ -3,7 +3,7 @@ import {Row, Col, Icon} from 'antd';
 
 
 
-export default ({sumAmount,sumMerchantFee,splitFeeSum})=>{
+export default ({sumAmount = 0,sumMerchantFee = 0,splitFeeSum = 0})=>{
 
   return (
     <div>

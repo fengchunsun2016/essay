@@ -5,47 +5,62 @@ import {connect} from 'react-redux';
 import Head from 'next/head';
 import Menu from '../components/menu';
 import SubHeader from  '../components/header';
-import {loadNewsAction} from '../actions';
+import { signOut} from '../actions';
+import {getHeaderNews} from '../../../services/headerNews';
 
 const {Sider, Content, Footer} = Layout;
 
 /***
  * 布局界面
  */
+
 class MainLayout extends React.Component {
   constructor(props) {
     super(props);
+    this.loadNews = this.loadNews.bind(this);
+    this.clearInterval = this.clearInterval.bind(this);
   }
-
-  componentDidMount(){
-   let {dispatch}=this.props;
-    //加载数据
-    dispatch(loadNewsAction())
+  componentDidMount() {
+    this.loadNews();
+    window.addEventListener('beforeunload', this.clearInterval);
+    this.interval = setInterval(this.loadNews, 3000000);
   }
-
+  componentWillUnmount() {
+    window.removeEventListener('beforeunload', this.clearInterval);
+    clearInterval(this.interval);
+  }
+  clearInterval() {
+    clearInterval(this.interval);
+  }
+  async loadNews() {
+    const { dispatch, passwordChanging } = this.props;
+    if (!passwordChanging) {
+      const res = await getHeaderNews();
+      const {data} = res;
+      if (data) {
+        dispatch({type: 'HEADER_NEWS_SUCCESS', data: data.data});
+      }
+    }
+  }
   render() {
-
     let {props}=this;
-    let {menu, auth,headerNews} = props;
+    let {menu, auth, headerNews, dispatch} = props;
     //菜单参数
     const menuProps = {
       url: props.url,
       menus: menu.menus,
-
     }
     const headerProps = {
-      username: auth&&auth.user ? auth.user.username : '',
+      username: auth.user.username,
+      pathname:this.props.url.pathname,
       headerNews,
       //消息地址
       messagePath:'message',
       workOrderOnClick(){
-
         const pathname='/work-order'
-
         if(props.url.pathname ==pathname){
           return;
         }
-
         router.push(pathname)
       },
       messageOnClick(){
@@ -66,8 +81,7 @@ class MainLayout extends React.Component {
           router.push('/channel/change')
         } else if (item.key == 3) {
           //退出登录
-          //清除store里的token
-          delete auth.token;
+          dispatch(signOut());
           //跳转到登录页面
           router.push('/')
         }
@@ -86,9 +100,7 @@ class MainLayout extends React.Component {
               <img src="/static/images/channel-logo.png" alt="" />
               <p className="text">渠道管理平台</p>
             </div>
-
             <Menu {...menuProps} />
-
           </Sider>
 
           <Layout>
@@ -100,16 +112,12 @@ class MainLayout extends React.Component {
               Copyright &copy; 2017北京亿联通付科技有限公司
             </Footer>
           </Layout>
-
         </Layout>
       </div>
     )
   }
 }
 
-
-const propsMapToState = ({menu, headerNews}) => ({menu, headerNews})
+const propsMapToState = ({changeP: {changing}, auth: {user}, menu, headerNews}) => ({passwordChanging: changing, menu, headerNews})
 
 export default connect(propsMapToState)(MainLayout);
-
-

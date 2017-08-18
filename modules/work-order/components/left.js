@@ -39,10 +39,10 @@ export default class Left extends React.Component {
         <Card style={{...styles.sameStyle, ...styles.topStyle}}>
           <Checkbox.Group onChange={(arr)=>this.onChange(arr)} defaultValue={['1', '2']}>
             <Col span={24}>
-              <Checkbox style={{fontSize: '14px'}} value="1">已解决</Checkbox>
+              <Checkbox style={{fontSize: '14px'}} value="2">已解决</Checkbox>
             </Col>
             <Col span={24}>
-              <Checkbox style={{fontSize: '14px'}} value="2">待解决</Checkbox>
+              <Checkbox style={{fontSize: '14px'}} value="1">待解决</Checkbox>
             </Col>
           </Checkbox.Group>
 

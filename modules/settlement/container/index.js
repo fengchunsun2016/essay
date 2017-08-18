@@ -1,12 +1,12 @@
 import React from 'react';
-import Router from 'next/router';
 import {connect} from 'react-redux';
 import {Card} from 'antd';
 import Query from '../components/query';
 import Center from '../components/center';
 import List from '../components/list';
 import {getSettlementAction,saveSettlementSearch,settlementChangeRows} from '../actions';
-
+import { getSettlementFile } from '../../../services/export';
+import { genFileDownLink } from '../../../utils/downLink';
 
 const styles = {
   card:{
@@ -20,17 +20,27 @@ class Settlement extends React.Component {
     const {
       common:{amountStatus},
       dispatch,
-      settlement:{list,rows,page,pending,search,total,currentData:{amountTitle,arrivalAmountTitle,merFeeTitle}}
+      settlement:{list,rows,page,pending,search:{startSettleTime,endSettleTime},total,currentData:{amountTitle,arrivalAmountTitle,merFeeTitle}}
     } = this.props;
 
     const queryProps = {
       amountStatus,
+      startDate:startSettleTime,
+      endDate:endSettleTime,
       onQuery:(data)=>{
         //月份格式
         dispatch(saveSettlementSearch(data));
         this.props.settlement.page = 1;
-        let queryData = {...data,page:1,rows};
+        let queryData = {...data,page:1,rows,type:1};
         dispatch(getSettlementAction(queryData));
+      },
+      onExport: async ()=>{
+        const {search} = this.props.settlement;
+        if (search.startSettleTime) {
+
+          const result = await getSettlementFile({...search,type:0});
+          genFileDownLink(result);
+        }
       }
     }
     const centerProps = {
@@ -71,6 +81,13 @@ class Settlement extends React.Component {
         <Card style={styles.card}>
           <List {...listProps} />
         </Card>
+        <style jsx global>{`
+          th.column-arrivalAmount,td.column-arrivalAmount,
+          th.column-amount,td.column-amount,
+          th.column-merFee,td.column-merFee {
+            text-align: right !important;
+          }
+      `}</style>
       </div>
     )
   }

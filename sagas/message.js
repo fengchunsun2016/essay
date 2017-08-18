@@ -4,7 +4,7 @@
 import {call, put, takeLatest} from 'redux-saga/effects';
 import {loadmessageList, loadMessageDetail} from '../services/message'
 import {MESSAGE_LOAD_DETAIL, MESSAGE_SEARCH} from '../constants/actionTypes';
-import {loadMessageSuccess, messageLoclRead,loadMessageDetailSuccess,showModalAction,loading} from '../modules/message/actions';
+import {loadMessageSuccess, messageLoclRead,loadMessageDetailSuccess,showModalAction,loading,loaded} from '../modules/message/actions';
 /***
  * 加载数据
  */
@@ -22,6 +22,7 @@ export function * searchMessageSaga(action) {
   } catch (e) {
     console.error(e);
   }
+  yield put(loaded())
 }
 
 //加载详情

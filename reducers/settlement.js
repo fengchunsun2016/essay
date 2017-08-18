@@ -18,9 +18,14 @@ export default (state = settlementState, action = {})=>{
     case SETTLEMENT_FULLFILLED:
       return {...state,pending:false};
     case SETTLEMENT_LOAD_SUCCESS:{
+      if(action.data&&(action.data.amountTitle||action.data.amountTitle==0)){
+        const {data} = action;
+        const {list,total} = data;
+        return {...state,currentData:data,list,total}
+      }
       const {data} = action;
       const {list,total} = data;
-      return {...state,currentData:data,list,total}
+      return {...state,list,total}
     }
     case SAVE_SETTLEMENT_SEARCH:{
       const {data} = action;

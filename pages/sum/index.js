@@ -15,7 +15,8 @@ const SumIndex=(props)=>{
   )
 }
 
-SumIndex.getInitialProps = async ({store,isServer}) => {
+SumIndex.getInitialProps = async (props) => {
+  const {store,isServer} = props
   const {common}=store.getState();
   if(common.payType.length==0){
     await store.dispatch(commonItemLoad())

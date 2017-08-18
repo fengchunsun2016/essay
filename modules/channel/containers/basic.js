@@ -61,18 +61,18 @@ class SubBasic extends React.Component {
 
   render() {
     const {balance, basicData, settleData, rateData} = this.props.basic;
-    // console.log(balance, basicData, settleData, rateData, '///////////////')
     return (
 
       <div className="main">
         <div className="balance">
-          <span className="title">账户余额:</span>
+          <Icon type="pay-circle-o" style={{color:'#ffb319',fontSize:20,marginRight:10}} />
+          <span className="title">账户余额(元):</span>
           <span className="icon">￥</span>
           <span className="num">{balance}</span>
         </div>
         <div className="top">
           <div className="title">
-            <Icon type={this.state.topIcon ? 'up' : 'down'} onClick={()=>this.handleTopClick()} />
+            <Icon style={{color:'#65ccf7'}} type={this.state.topIcon ? 'down-circle-o' : 'down-circle-o'} onClick={()=>this.handleTopClick()} />
             <span>基本信息</span>
           </div>
           {
@@ -81,10 +81,10 @@ class SubBasic extends React.Component {
               <Row>
                 <Col span={8}>
                   <div className="">
-                    <Col span={6}>
+                    <Col span={8}>
                       <span className="name">商户号：</span>
                     </Col>
-                    <Col span={18}>
+                    <Col span={16}>
                       <span className="number">{basicData ? basicData.mid : ''}</span>
                     </Col>
 
@@ -97,7 +97,7 @@ class SubBasic extends React.Component {
                       <span className="name">商户名称：</span>
                     </Col>
                     <Col span={18}>
-                      <span className="number">{basicData ? basicData.merchantName : ''}</span>
+                      <span className="number">{basicData ? basicData.merName : ''}</span>
                     </Col>
                   </div>
                 </Col>
@@ -105,11 +105,11 @@ class SubBasic extends React.Component {
               <Row>
                 <Col span={8}>
                   <div className="">
-                    <Col span={6}>
+                    <Col span={8}>
                       <span className="name">联系人：</span>
                     </Col>
-                    <Col span={18}>
-                      <span className="number">{basicData ? basicData.contact : ''}</span>
+                    <Col span={16}>
+                      <span className="number">{basicData ? basicData.bizContact : ''}</span>
                     </Col>
 
 
@@ -121,7 +121,7 @@ class SubBasic extends React.Component {
                       <span className="name">电话：</span>
                     </Col>
                     <Col span={18}>
-                      <span className="number">{basicData ? basicData.phone : ''}</span>
+                      <span className="number">{basicData ? basicData.bizMobile : ''}</span>
                     </Col>
                   </div>
                 </Col>
@@ -139,11 +139,11 @@ class SubBasic extends React.Component {
               <Row>
                 <Col span={8}>
                   <div className="">
-                    <Col span={6}>
+                    <Col span={8}>
                       <span className="name">下辖商户数量：</span>
                     </Col>
-                    <Col span={18}>
-                      <span className="number">{basicData ? basicData.underMerchant : ''}</span>
+                    <Col span={16}>
+                      <span className="number">{basicData ? basicData.wechatCode : ''}</span>
                     </Col>
 
 
@@ -169,7 +169,7 @@ class SubBasic extends React.Component {
 
         <div className="center">
           <div className="title">
-            <Icon type={this.state.centerIcon ? 'up' : 'down'} onClick={()=>this.handleCenterClick('centerCon')} />
+            <Icon style={{color:'#65ccf7'}} type={this.state.centerIcon ? 'down-circle-o' : 'down-circle-o'} onClick={()=>this.handleCenterClick('centerCon')} />
             <span>结算信息</span>
           </div>
           {
@@ -177,10 +177,10 @@ class SubBasic extends React.Component {
               <Row>
                 <Col span={8}>
                   <div className="">
-                    <Col span={6}>
+                    <Col span={8}>
                       <span className="name">开户银行：</span>
                     </Col>
-                    <Col span={18}>
+                    <Col span={16}>
                       <span className="number">{settleData.openBank}</span>
                     </Col>
 
@@ -211,10 +211,10 @@ class SubBasic extends React.Component {
               <Row>
                 <Col span={8}>
                   <div className="">
-                    <Col span={6}>
+                    <Col span={8}>
                       <span className="name">开户名称：</span>
                     </Col>
-                    <Col span={18}>
+                    <Col span={16}>
                       <span className="number">{settleData.openAccName}</span>
                     </Col>
                   </div>
@@ -225,7 +225,7 @@ class SubBasic extends React.Component {
                       <span className="name">银行账户：</span>
                     </Col>
                     <Col span={18}>
-                      <span className="number">{settleData.accNo}</span>
+                      <span className="number">{settleData.openBankAcc}</span>
                     </Col>
                   </div>
                 </Col>
@@ -238,31 +238,31 @@ class SubBasic extends React.Component {
 
         <div className="bottom">
           <div className="title">
-            <Icon type={this.state.bottomIcon ? 'up' : 'down'} onClick={()=>this.handleBottomClick('bottomCon')} />
+            <Icon style={{color:'#65ccf7'}} type={this.state.bottomIcon ? 'down-circle-o' : 'down-circle-o'} onClick={()=>this.handleBottomClick('bottomCon')} />
             <span>费率信息</span>
           </div>
           {
             this.state.bottomIcon?( <div className="content">
               <div className="pay">
-                <div className="boTitle">{rateData &&rateData.pay? rateData.pay.name : ''}</div>
+                <div className="boTitle">支付手续费</div>
                 {
-                  rateData&& rateData.pay? rateData.pay.data.map((item, index)=> {
+                  rateData&& rateData.pay? rateData.pay.map((item, index)=> {
                     return (
                       <Row key={index}>
-                        <Col span={4}>
+                        <Col span={3}>
                           <span className="name">{item.payType}</span>
                         </Col>
-                        <Col span={4}>
+                        <Col span={3}>
                           <span className="subName">费率（%）：</span>
                           <span className="">{item.rate}</span>
                         </Col>
-                        <Col span={4}>
+                        <Col span={5}>
                           <span className="subName">手续费封顶（元）：</span>
-                          <span className="">{item.top}</span>
+                          <span className="">{item.hightAmt}</span>
                         </Col>
                         <Col span={4}>
                           <span className="subName">手续费保底（元）：</span>
-                          <span className="">{item.bottom}</span>
+                          <span className="">{item.lowAmt}</span>
                         </Col>
 
                       </Row>
@@ -272,34 +272,34 @@ class SubBasic extends React.Component {
 
               </div>
               <div className="payAnother">
-                <div className="boTitle">{rateData&&rateData.payAnother ? rateData.payAnother.name : ''}</div>
+                <div className="boTitle">代付手续费</div>
 
                 {
-                  rateData&&rateData.payAnother ? rateData.payAnother.data.map((item, index)=> {
+                  rateData&&rateData.payAnother ? rateData.payAnother.map((item, index)=> {
                     return (
                       <Row key={index}>
-                        <Col span={4}>
-                          <span className="name">{item.payType}</span>
+                        <Col span={3}>
+                          <span className="name">{item.typeCode}</span>
                         </Col>
-                        <Col span={4}>
+                        <Col span={3}>
                           <span className="subName">费率（%）：</span>
                           <span className="">{item.rate}</span>
                         </Col>
-                        <Col span={4}>
+                        <Col span={5}>
                           <span className="subName">手续费封顶（元）：</span>
-                          <span className="">{item.top}</span>
+                          <span className="">{item.hightAmt}</span>
                         </Col>
                         <Col span={4}>
                           <span className="subName">手续费保底（元）：</span>
-                          <span className="">{item.bottom}</span>
+                          <span className="">{item.lowAmt}</span>
                         </Col>
                         <Col span={4}>
                           <span className="subName">最小结算金额（元）：</span>
-                          <span className="">{item.min}</span>
+                          <span className="">{item.merLowAmt}</span>
                         </Col>
-                        <Col span={4}>
+                        <Col span={5}>
                           <span className="subName">最大结算金额（元）：</span>
-                          <span className="">{item.max}</span>
+                          <span className="">{item.merHightAmt}</span>
                         </Col>
 
 
@@ -317,7 +317,7 @@ class SubBasic extends React.Component {
                     .main{
                         padding: 0 10px;
                         width:100%;
-                        font-size:16px;
+                        font-size:14px;
                         background:#fff;
                         color:#000;
                     }
@@ -329,14 +329,20 @@ class SubBasic extends React.Component {
                     }
                     .balance .title{
                         margin-right:60px;
+                        font-size:16px;
 
                     }
-
+                    .balance .num{
+                        margin-left:5px;
+                        font-size:24px;
+                        font-weight:500;
+                    }
 
                     .top .title,.center .title,.bottom .title{
                         border-bottom:1px solid #ccc;
                         height:40px;
                         line-height:40px;
+                        font-size:16px;
                     }
                     .top .title span,.center .title span,.bottom .title span{
                         margin-left:10px;
@@ -356,20 +362,13 @@ class SubBasic extends React.Component {
                         line-height:30px;
                     }
                     .bottom .content .boTitle{
-                        font-weight:700;
+                        font-size:15px;
+                        font-weight:500;
                     }
                     .bottom .content .name{
                         margin-left:20px;
                     }
-                    .top{
 
-                    }
-                    .center{
-
-                    }
-                    .bottom{
-
-                    }
                 `}</style>
       </div>
     )
