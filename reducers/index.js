@@ -23,6 +23,10 @@ import settlement from './settlement';
 
 import account from './account';
 
+import terminal from './terminal';
+
+import pos from './pos';
+
 export const defaultInitialState = {
   auth: authState
 }
@@ -43,6 +47,8 @@ const rootReducers = combineReducers({
   deal,
   settlement,
   account,
+  terminal,
+  pos,
 })
 
 

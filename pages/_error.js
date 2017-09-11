@@ -7,7 +7,6 @@
  */
 import React from 'react'
 import Link from 'next/link'
-import Head from 'next/head'
 
 class Error extends React.Component {
   static propTypes() {

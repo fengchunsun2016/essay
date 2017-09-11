@@ -9,8 +9,7 @@ import {
   Card,
   Form,
   Select,
-  DatePicker,
-  Radio
+  DatePicker
 } from 'antd';
 
 const Option = Select.Option;
@@ -59,9 +58,14 @@ class Query extends React.Component {
       onQuery({mid,merchantName,status,beginTime,endTime});
     });
   }
+  resetFields(){
+    const {resetSearch,form: { resetFields}} = this.props;
+    resetSearch();
+    resetFields();
+  }
 
   render() {
-    let {merchantStatus = [], startDate = null, endDate = null, form: {getFieldDecorator, resetFields}} = this.props;
+    let {merchantStatus = [], startDate = null, mid, merchantName, status, endDate = null, form: {getFieldDecorator}} = this.props;
     //下拉列表
     let options = merchantStatus.map((item) => (
       <Option key={item.id}>{item.name}</Option>
@@ -81,7 +85,7 @@ class Query extends React.Component {
             label="商户号"
           >
             {getFieldDecorator('mid', {
-              initialValue: '',
+              initialValue: mid?mid:'',
             })(
               <Input
                 size="default"
@@ -93,7 +97,7 @@ class Query extends React.Component {
             label="商户名称"
           >
             {getFieldDecorator('merchantName', {
-              initialValue: '',
+              initialValue: merchantName?merchantName:'',
             })(
               <Input
                 size="default"
@@ -105,7 +109,7 @@ class Query extends React.Component {
             label="状态"
           >
             {getFieldDecorator('status', {
-              initialValue: 'all',
+              initialValue: status?status:'all',
             })(
               <Select
                 size="default"
@@ -144,7 +148,7 @@ class Query extends React.Component {
             <Button
               size="default"
               style={{marginLeft: 8}}
-              onClick={() => resetFields()}
+              onClick={() => this.resetFields()}
             >
               重置
             </Button>

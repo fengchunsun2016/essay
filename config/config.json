@@ -1,9 +1,8 @@
 {
   "projectName":"渠道管理平台",
   "_devUrl":"https://www.easy-mock.com/mock/5959bfe39adc231f356fa706/channel-mer-web",
-  "devUrl":"https://192.168.5.120:8443/chanel-manage-web",
-  "baseUrl":"https://192.168.5.120:8443/chanel-manage-web",
-  "vcodeUri":"https://192.168.5.120:8443/chanel-manage-web/user/identify?keyID=",
+  "devUrl":"http://192.168.1.239:8287",
+  "baseUrl":"http://192.168.1.239:8287",
+  "vcodeUri":"http://192.168.1.239:8287/user/identify?keyID=",
   "tokenCookieName": "whatever"
 }
-

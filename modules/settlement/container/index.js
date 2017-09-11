@@ -5,7 +5,7 @@ import Query from '../components/query';
 import Center from '../components/center';
 import List from '../components/list';
 import {getSettlementAction,saveSettlementSearch,settlementChangeRows} from '../actions';
-import { getSettlementFile } from '../../../services/export';
+import { getSettlementFile, getSettlementBillsFile } from '../../../services/export';
 import { genFileDownLink } from '../../../utils/downLink';
 
 const styles = {
@@ -20,10 +20,12 @@ class Settlement extends React.Component {
     const {
       common:{amountStatus},
       dispatch,
-      settlement:{list,rows,page,pending,search:{startSettleTime,endSettleTime},total,currentData:{amountTitle,arrivalAmountTitle,merFeeTitle}}
+      settlement:{list,rows,page,pending,search,search:{startSettleTime,endSettleTime,serialNo,status},total,currentData:{amountTitle,arrivalAmountTitle,merFeeTitle}}
     } = this.props;
 
     const queryProps = {
+      serialNo,
+      status,
       amountStatus,
       startDate:startSettleTime,
       endDate:endSettleTime,
@@ -41,12 +43,21 @@ class Settlement extends React.Component {
           const result = await getSettlementFile({...search,type:0});
           genFileDownLink(result);
         }
+      },
+      resetSearch : ()=>{
+        dispatch({type:'RESET_SETTLEMENT_SEARCH'})
       }
     }
     const centerProps = {
       amountTitle,
       arrivalAmountTitle,
-      merFeeTitle
+      merFeeTitle,
+      onExportBills: async (data)=>{
+        if (data.startDate) {
+          const result = await getSettlementBillsFile(data);
+          genFileDownLink(result);
+        }
+      }
     }
     const listProps = {
       list,
@@ -58,14 +69,14 @@ class Settlement extends React.Component {
       onShowSizeChange:(current, pageSize)=>{
         dispatch(settlementChangeRows({rows: pageSize, page: 1}));
 
-        let queryData = {...search, page: 1, rows: pageSize , type:0};
+        let queryData = {...search, page: 1, rows: pageSize , type:1};
         dispatch(getSettlementAction(queryData));
       },
       //分页查询
       onPageChange:(page, pageSize)=>{
         dispatch(settlementChangeRows({rows: pageSize, page: page}));
 
-        let queryData = {...search, page, rows: pageSize, type:0};
+        let queryData = {...search, page, rows: pageSize, type:1};
         dispatch(getSettlementAction(queryData));
       }
     }
@@ -86,6 +97,9 @@ class Settlement extends React.Component {
           th.column-amount,td.column-amount,
           th.column-merFee,td.column-merFee {
             text-align: right !important;
+          }
+          td.column-arrivalAmount,td.column-amount,td.column-merFee{
+            padding-right:20px !important;
           }
       `}</style>
       </div>

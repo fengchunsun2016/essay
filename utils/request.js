@@ -2,21 +2,20 @@
  * Created by lihejia on 2017/7/18.
  */
 import router from 'next/router';
-import https from 'https';
+// import https from 'https';
 import isomorphicFetch from 'isomorphic-fetch'
 import {notification} from  'antd';
 import es6promise from 'es6-promise'
 import qs from 'qs';
 import config from '../config/config.json';
-import { getToken } from '../utils/cookies';
-import {removeTokenCookie} from '../utils/cookies';
+import { getToken, removeTokenCookie} from '../utils/cookies';
 
 
 
 es6promise.polyfill();
 
 const defaultOptions = {
-  agent: new https.Agent({ rejectUnauthorized: false }),
+  // agent: new https.Agent({ rejectUnauthorized: false }),
   mode: 'cors',
 };
 
@@ -80,19 +79,34 @@ async function checkCode(result){
   if (result && result.code === 200) {
     return result;
   }
-  if (result.code === 411) {
-    removeTokenCookie();
-    if ( typeof window !== 'undefined'  ) {
-      router.push('/');
-    }
-  }
   if (process.browser) {
-    console.log(result);
     notification.warning({
       message: '出错啦 (*>﹏<*)',
       description: result && result.msg || '请求错误，未知异常',
     })
   }
+  if (result.code === 411) {
+    removeTokenCookie();
+    if ( typeof window !== 'undefined'  ) {
+      router.push('/');
+      return result;
+    }
+  }
+  if (result.code === 406) {
+    removeTokenCookie();
+    if ( typeof window !== 'undefined'  ) {
+      router.push('/');
+      return result;
+    }
+  }
+  if (result.code === 407) {
+    removeTokenCookie();
+    if ( typeof window !== 'undefined'  ) {
+      router.push('/');
+      return result;
+    }
+  }
+
   // const error = new Error(result && result.msg);
   // throw error;
 }
@@ -145,7 +159,6 @@ export async function post(url, data){
  */
 export async function request(url, options = {}){
   if (!options.headers.Authorization && !options.loginRequest) {
-    console.log('既没token，又不登录，拒绝发起请求');
     return {data: null};
   }
   const baseUrl = process.env.NODE_ENV === 'production' ? config.baseUrl : config.devUrl;

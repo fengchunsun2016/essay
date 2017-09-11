@@ -1,104 +1,95 @@
 import React from 'react';
-import {Row, Col, Button, Card, notification} from 'antd';
-import {connect} from 'react-redux';
+import { Row, Col, Button, Card } from 'antd';
+import { connect } from 'react-redux';
 import Left from '../components/left';
 import List from '../components/list';
-import {loadWorkOrderAction,postHaveReadAction,postWorkOrderAction} from '../actions';
+import { loadWorkOrderAction, postHaveReadAction, postWorkOrderAction } from '../actions';
 import DetailModal from '../components/detailModal';
 import CollectionCreateForm from '../components/submmitModal';
 
 
-//提交工单成功提示
-const openNotificationWithIcon = (type) =>{
-  notification[type]({
-    message:'恭喜!!!',
-    description:'您的工单已提交成功！',
-  });
-};
-
 const styles = {
-  loadMore:{
-    display:'flex',
-    justifyContent:'center',
-    alignItems:'center',
-    height:100
+  loadMore : {
+    display : 'flex',
+    justifyContent : 'center',
+    alignItems : 'center',
+    height : 100
   }
 }
 
 class WorkOrder extends React.Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
-      visible:false,
-      detailData:{},
-      detailVisible:false,
-      detailLoading:false,
+      visible : false,
+      detailData : {},
+      detailVisible : false,
+      detailLoading : false,
 
     }
   }
 
   //详情页弹出框
-  detailShowModal(){
+  detailShowModal() {
     this.setState({
-      detailVisible:true,
+      detailVisible : true,
 
     });
   }
 
-  saveFormRef = (form) =>{
+  saveFormRef = (form) => {
     this.form = form;
   }
 
   //提交工单弹出框
 
-  handleCancel = () =>{
-    this.setState({visible:false});
+  handleCancel = () => {
+    this.setState({ visible : false });
   }
-  handleCreate = () =>{
+  handleCreate = () => {
     const form = this.form;
-    form.validateFields((err, values) =>{
+    form.validateFields((err, values) => {
       if (err) {
         return;
       }
 
       form.resetFields();
-      this.setState({visible:false});
-      const {dispatch} = this.props;
-      dispatch(postWorkOrderAction({issueTitle:values.title, detail:values.des}));
+      this.setState({ visible : false });
+      const { dispatch } = this.props;
+      dispatch(postWorkOrderAction({ issueTitle : values.title, detail : values.des }));
 
     });
   }
 
 
-
   /*点击加载更多*/
-  loadMore(){
-    const {dispatch, workOrder:{search}} = this.props;
+  loadMore() {
+    const { dispatch, workOrder:{ search } } = this.props;
     this.props.workOrder.search.page = search.page + 1;
     // console.log(search);
     dispatch(loadWorkOrderAction(search));
 
   }
 
-  render(){
-    const {workOrder:{list, total, pending, search:{page, rows}}} = this.props;
+  render() {
+    const { workOrder:{ list, total, pending, search:{ page, rows, status } } } = this.props;
     const listProps = {
       list,
       total,
       pending,
       /*点击列表项显示详情*/
-      handleClick:(record)=>{
-        const {workOrder:{list},dispatch} = this.props;
-        if(record.haveRead==1){
-          const newList = list.map((item)=>{
-            if(record.feedbackNo==item.feedbackNo){
-              item.haveRead=2;
+      handleClick : (record)=> {
+        const { workOrder:{ list }, dispatch } = this.props;
+        if (record.haveRead == 1) {
+          const newList = list.map((item)=> {
+            if (record.feedbackNo == item.feedbackNo) {
+              item.haveRead = 2;
             }
             return item;
           });
           this.props.workOrder.list = newList;
-          dispatch(postHaveReadAction({feedbackNo:record.feedbackNo}))
+          dispatch(postHaveReadAction({ feedbackNo : record.feedbackNo }))
 
         }
         const detailData = list.find((item)=>item.feedbackNo == record.feedbackNo);
@@ -111,39 +102,46 @@ class WorkOrder extends React.Component {
     }
     //详情页
     const detailProps = {
-      handleCancel:() =>{
+      visible : this.state.detailVisible,
+      loading : this.state.detailLoading,
+      detailData : this.state.detailData,
+      handleCancel : () => {
         this.setState({
-          detailVisible:false
+          detailVisible : false
         });
       }
     }
     //左侧（checkbox和提交工单）
     const leftProps = {
-      showModal:() =>{
-        this.setState({visible:true});
+      status,
+      showModal : () => {
+        this.setState({ visible : true });
       },
       /*点击checkbox*/
-      onClickCheckbox:(num)=>{
-        const {dispatch, workOrder:{search}} = this.props;
+      onClickCheckbox : (num)=> {
+        const { dispatch, workOrder:{ search } } = this.props;
         this.props.workOrder.search.page = 1;
         this.props.workOrder.search.status = num / 1;
-        dispatch(loadWorkOrderAction(search));
+        if(num==0){
+          num=3
+        }
+        dispatch(loadWorkOrderAction({ ...search, status : num }));
       }
     }
     return (
       <div>
-        <Row gutter={12} >
-          <Col span={4} >
+        <Row gutter={12}>
+          <Col span={4}>
             <Left {...leftProps} />
           </Col>
 
-          <Col className="gutter-row" span={20} >
+          <Col className="gutter-row" span={20}>
             <Card>
               <List {...listProps} />
 
-              <Col span={24} style={styles.loadMore} >
+              <Col span={24} style={styles.loadMore}>
                 {
-                  total / rows > page ? <Button onClick={()=>this.loadMore()} >加载更多...</Button> : <div style={{padding:'6px 15px',background:'#ccc',borderRadius:5}}>没有更多内容了...</div>
+                  total / rows > page ? <Button onClick={()=>this.loadMore()}>加载更多...</Button> : <div style={{ padding : '6px 15px', background : '#ccc', borderRadius : 5 }}>没有更多内容了...</div>
                 }
               </Col>
             </Card>
@@ -153,9 +151,6 @@ class WorkOrder extends React.Component {
 
         </Row>
         <DetailModal
-          visible={this.state.detailVisible}
-          loading={this.state.detailLoading}
-          detailData={this.state.detailData}
           {...detailProps}
         />
 
@@ -171,12 +166,5 @@ class WorkOrder extends React.Component {
   }
 
 
-
-
-
-
-
-
-
 }
-export  default connect(({workOrder})=>({workOrder}))(WorkOrder);
+export  default connect(({ workOrder })=>({ workOrder }))(WorkOrder);

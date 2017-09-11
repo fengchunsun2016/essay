@@ -20,7 +20,7 @@ class MessageModal extends React.Component {
     this.setState({
       loading: true,
     });
-    let {applyDate, content, title, fileName, filePath} = this.props.data;
+    let { filePath} = this.props.data;
     const result = await getMessageFile(filePath);
     await genFileDownLink(result);
     this.setState({
@@ -30,7 +30,7 @@ class MessageModal extends React.Component {
 
   render () {
     const {visible, onCancel} = this.props;
-    let {applyDate, content, title, fileName, filePath} = this.props.data;
+    let {applyDate, content, title, fileName} = this.props.data;
     return (
       <Modal
         title={title}

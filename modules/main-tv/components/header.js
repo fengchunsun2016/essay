@@ -15,8 +15,7 @@ const {RangePicker} = DatePicker;
  * @returns {React Component}
  */
 export default ({beginTime, endTime, startDate = null, endDate = null, onOk, merPayLineChartTitle = {}}) => {
-
-
+  const {succAmountSumTitle=0, allAmountSumTitle=0, allCountTitle=0, succCountTitle=0} = merPayLineChartTitle;
   function disabledDate(current) {
     // Can not select days before today and today
     return current && current.valueOf() > Date.now();
@@ -57,7 +56,7 @@ export default ({beginTime, endTime, startDate = null, endDate = null, onOk, mer
             <Col span={6}>
               <div className="item successM">
                 <div className="data">
-                  <span className="num">{merPayLineChartTitle && merPayLineChartTitle.succAmountSumTitle}</span>
+                  <span className="num">{succAmountSumTitle?succAmountSumTitle:0}</span>
                   <span>元</span>
                 </div>
                 <div className="text">成功交易额</div>
@@ -66,7 +65,7 @@ export default ({beginTime, endTime, startDate = null, endDate = null, onOk, mer
             <Col span={6}>
               <div className="item amount">
                 <div className="data">
-                  <span className="num">{merPayLineChartTitle && merPayLineChartTitle.succCountTitle}</span>
+                  <span className="num">{succCountTitle?succCountTitle:0}</span>
                   <span>笔</span>
                 </div>
                 <div className="text">成功交易笔数</div>
@@ -75,7 +74,7 @@ export default ({beginTime, endTime, startDate = null, endDate = null, onOk, mer
             <Col span={6}>
               <div className="item totalM">
                 <div className="data">
-                  <span className="num">{merPayLineChartTitle && merPayLineChartTitle.allAmountSumTitle}</span>
+                  <span className="num">{allAmountSumTitle?allAmountSumTitle:0}</span>
                   <span>元</span>
                 </div>
                 <div className="text">交易总额</div>
@@ -84,7 +83,7 @@ export default ({beginTime, endTime, startDate = null, endDate = null, onOk, mer
             <Col span={6}>
               <div className="item totalA">
                 <div className="data">
-                  <span className="num">{merPayLineChartTitle && merPayLineChartTitle.allCountTitle}</span>
+                  <span className="num">{allCountTitle?allCountTitle:0}</span>
                   <span>笔</span>
                 </div>
                 <div className="text">交易总笔数</div>
@@ -118,43 +117,13 @@ export default ({beginTime, endTime, startDate = null, endDate = null, onOk, mer
                             background:#00a1e9;
                         }
                         .deal .item{
-                            font-size:16px;
+                            font-size:14px;
                             text-align:center;
                         }
                         .deal .num{
-                            font-size:32px;
+                            font-size:24px;
                         }
-                        .charts{
-                            margin-top:17px;
-                            height:640px;
-                            background:#fff;
-                        }
-                        .charts .chart1,.charts .chart2{
-                            position:relative;
-                            height:320px;
-                        }
-                        .charts .chart{
-                            position:absolute;
-                            top:18px;
-                            left:18px;
-                            padding-left:15px;
-                            font-size:16px;
-                        }
-                        .chart .icon{
-                            display:block;
-                            position:absolute;
-                            top:7px;
-                            left:0;
-                            width:12px;
-                            height:12px;
-                            border-radius:6px;
-                            background:#00a1e9;
-                        }
-                        .charts .chartBox1{
-                            width:100%;
-                            height:80%;
-                            margin-top:20%;
-                        }
+
 
                      `}
       </style>

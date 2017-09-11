@@ -4,14 +4,14 @@ import {Table,Card} from 'antd';
 const columns = [{
   title: '序号',
   dataIndex: 'id',
-  width: '5%',
+  width:'10%',
   render: (text, item, index) => (
     index + 1
   )
 }, {
   title: '标题',
   dataIndex: 'title',
-  width: '70%',
+  width: '75%',
   render: (text, item) => {
     return (
       <p>

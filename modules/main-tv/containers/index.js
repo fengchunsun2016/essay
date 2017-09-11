@@ -31,11 +31,18 @@ class MainV extends React.Component {
 
   componentWillMount() {
 
-    let {dispatch} = this.props;
+    let {dispatch, mainV} = this.props;
+    let {search:{startDate,endDate}} = mainV;
     let {beginTime, endTime} = this.state;
-    const queryData = {
+    let queryData = {
       beginTime,
       endTime
+    }
+    if(startDate){
+      queryData = {
+        beginTime:startDate,
+        endTime:endDate
+      }
     }
     dispatch(loadMainV(queryData))
   }

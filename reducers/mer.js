@@ -6,7 +6,8 @@ import {
   MER_LOAD_SUCCESS,
   MER_SAVA_QUERY,
   MER_CHANGE_ROWS,
-  MER_FULFILLED
+  MER_FULFILLED,
+  RESET_MER_SEARCH
 } from '../constants/actionTypes';
 
 
@@ -50,6 +51,9 @@ export default (state = merState, action = {}) => {
     case MER_FULFILLED:{
       return {...state,pending: false}
     }
+    //
+    case RESET_MER_SEARCH:
+      return {...state,search:{}}
     default:
       return state;
   }

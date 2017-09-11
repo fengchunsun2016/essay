@@ -14,7 +14,7 @@ import {Table, Card} from 'antd';
  * @param payType 支付种类
  * @returns {}
  */
-export default ({page = 1, rows = 10, payType = [], pending, total = 0, list = [], onPageChange, onShowSizeChange}) => {
+export default ({page = 1, rows = 10, pending, total = 0, list = [], onPageChange, onShowSizeChange}) => {
 
   const columns = [{
     title: '序号',
@@ -25,14 +25,6 @@ export default ({page = 1, rows = 10, payType = [], pending, total = 0, list = [
   }, {
     title: '商户号',
     dataIndex: 'mid',
-    render: (text, item) => {
-      return (
-        <p>
-          {text}
-          <span className={item.status ? 'hasRead' : ''} />
-        </p>
-      )
-    }
 
   }, {
     title: '商户名称',
@@ -40,25 +32,11 @@ export default ({page = 1, rows = 10, payType = [], pending, total = 0, list = [
   }, {
     title: '支付种类',
     dataIndex: 'payType',
-    render: (text) => {
-      let resultText=text;
-      //获取获取支付种类对应中文名称
-      payType.map((tem) => {
-        if(tem.id==text){
-          resultText=tem.name;
-          return;
-        }
-      })
-
-
-      return resultText;
-    }
-
   }, {
     title: '分润金额(元)',
     className:'column-feeSum',
     dataIndex: 'feeSum',
-    render: (text, item) => {
+    render: (text) => {
       return (
         <p>
           {text.toFixed(2)}
@@ -69,18 +47,11 @@ export default ({page = 1, rows = 10, payType = [], pending, total = 0, list = [
     title: '交易笔数(笔)',
     className:'column-payCount',
     dataIndex: 'payCount',
-    render: (text, item) => {
-      return (
-        <p>
-          {text.toFixed(2)}
-        </p>
-      )
-    }
   }, {
     title: '交易金额(元)',
     className:'column-paySum',
     dataIndex: 'paySum',
-    render: (text, item) => {
+    render: (text) => {
       return (
         <p>
           {text.toFixed(2)}

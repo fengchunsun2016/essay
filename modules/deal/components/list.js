@@ -100,7 +100,7 @@ export default ({pending, onRowClick, list = [], total = 0, onPageChange, onShow
       pagination={pagConfig}
       rowKey="serialNo"
       style={{whiteSpace : 'nowrap'}}
-      scroll={clientWidth&&clientWidth<1450?{x:1200}:{x:'100%'}}
+      scroll={clientWidth&&clientWidth<1500?{x:1300}:{x:'100%'}}
     />
 
   )

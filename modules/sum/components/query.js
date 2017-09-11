@@ -36,7 +36,8 @@ class Query extends React.Component {
     this.requestTypeChange = this.requestTypeChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.exportSubmit = this.exportSubmit.bind(this);
-    this.disabledDate= this.disabledDate.bind(this)
+    this.disabledDate= this.disabledDate.bind(this);
+    this.selectDate = this.selectDate.bind(this);
   }
 
   //不准选择日期
@@ -60,7 +61,6 @@ class Query extends React.Component {
     e.preventDefault();
     let {form, onQuery} = this.props;
     form.validateFields((err, values) => {
-      console.log(values,'aaaaaaaaaaaaaaaaa')
 
       onQuery(values);
     });
@@ -69,21 +69,24 @@ class Query extends React.Component {
 
   requestTypeChange(e) {
     let {value} = e.target;
-    this.setState({
-      requestType: value
-    })
+    this.props.changeType(value);
   }
 
   //根据日期类型选择空间
   selectDate() {
-    let {requestType} = this.state;
+    let {startMonth, endMonth, startDay, endDay, requestType} = this.props;
     const {getFieldDecorator} = this.props.form;
+
     const rangeConfig = {
-      initialValue: [moment(), moment()],
+      initialValue: [startDay?moment(startDay,'YYYY-MM-DD'):moment(), endDay?moment(endDay,'YYYY-MM-DD'):moment()],
       rules: [{type: 'array', message: '请选择日期!'}],
     }
-    const config = {
-      initialValue: moment(),
+    const configStartMonth = {
+      initialValue: startMonth?moment(startMonth,'YYYY-MM'):moment(),
+      rules: [{type: 'object', message: '请选择日期!'}],
+    };
+    const configEndMonth = {
+      initialValue: endMonth?moment(endMonth,'YYYY-MM'):moment(),
       rules: [{type: 'object', message: '请选择日期!'}],
     };
     if ('day' == requestType) {
@@ -113,7 +116,7 @@ class Query extends React.Component {
           <FormItem
             label="交易日期"
           >
-            {getFieldDecorator('startDate', config)(
+            {getFieldDecorator('startDate', configStartMonth)(
               <MonthPicker
                 size="default"
                 style={{width: 80}}
@@ -127,7 +130,7 @@ class Query extends React.Component {
           </FormItem>
           <FormItem>
 
-            {getFieldDecorator('endDate', config)(
+            {getFieldDecorator('endDate', configEndMonth)(
               <MonthPicker
                 size="default"
 
@@ -143,11 +146,16 @@ class Query extends React.Component {
       )
     }
   }
+  resetFields(){
+    const {resetSearch,form: { resetFields}} = this.props;
+    resetSearch();
+    resetFields();
+  }
 
   render() {
-    let {payType = [], isServer, form: {getFieldDecorator, resetFields}} = this.props;
+    let {payTypeList = [], payType, mid, merName, requestType,form: {getFieldDecorator}} = this.props;
 
-    let options = payType.map((item) => (
+    let options = payTypeList.map((item) => (
       <Option key={item.id}>{item.name}</Option>
     ))
 
@@ -162,7 +170,7 @@ class Query extends React.Component {
             style={{margin: '5px 10px'}}
           >
             {getFieldDecorator('mid', {
-              initialValue: '',
+              initialValue: mid?mid:'',
             })(
               <Input
                 size="default"
@@ -175,7 +183,7 @@ class Query extends React.Component {
             label="商户名称"
           >
             {getFieldDecorator('merName', {
-              initialValue: '',
+              initialValue: merName?merName:'',
             })(
               <Input
                 size="default"
@@ -188,7 +196,7 @@ class Query extends React.Component {
             label="支付种类"
           >
             {getFieldDecorator('payType', {
-              initialValue: 'all',
+              initialValue: payType?payType:'all',
             })(
               <Select
                 size="default"
@@ -202,12 +210,12 @@ class Query extends React.Component {
           </FormItem>
 
 
-            {this.selectDate()}
+          {this.selectDate()}
 
 
           <FormItem>
             {getFieldDecorator('requestType', {
-              initialValue: this.state.requestType,
+              initialValue: requestType?requestType:'month',
             })(
               <RadioGroup
                 onChange={this.requestTypeChange}
@@ -232,14 +240,14 @@ class Query extends React.Component {
               type="primary"
               size="default"
               onClick={this.exportSubmit}
-              loading = {this.state.loading}
+              loading={this.state.loading}
             >
               导出
             </Button>
             <Button
               size="default"
               style={{marginLeft: 8}}
-              onClick={() => resetFields()}
+              onClick={() => this.resetFields()}
             >
               重置
             </Button>

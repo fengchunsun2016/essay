@@ -9,14 +9,17 @@ import Query from '../components/query';
 import List from '../components/list';
 import {merLoad, saveQuery, rowsAndPageChange} from '../actions';
 
-const SunIndex = (props) => {
+const MerIndex = (props) => {
 
   let {mer, common: {merchantStatus}, dispatch} = props;
   //获取sum参数信息
-  let {rows, search, search:{beginTime,endTime},titlePaySum,titlePayCount,titleFeeSum} = mer;
+  let {rows, search, search:{beginTime,endTime,mid,merchantName,status},titlePaySum,titlePayCount,titleFeeSum} = mer;
   //查询参数
   let queryProps = {
     merchantStatus,
+    mid,
+    merchantName,
+    status,
     startDate:beginTime,
     endDate:endTime,
     //查询
@@ -25,6 +28,9 @@ const SunIndex = (props) => {
       let queryData = {...data,page:1,rows}
       dispatch(saveQuery(queryData))
       dispatch(merLoad(queryData));
+    },
+    resetSearch : ()=>{
+      dispatch({type:'RESET_MER_SEARCH'})
     }
   }
 
@@ -46,12 +52,6 @@ const SunIndex = (props) => {
       dispatch(merLoad(queryData));
     }
   }
-  //统计金额
-  const sumAccountProps={
-    titlePaySum,
-    titlePayCount,
-    titleFeeSum
-  }
   return (
     <div>
       <Row>
@@ -69,4 +69,4 @@ const SunIndex = (props) => {
   )
 }
 
-export default connect(({common, mer}) => ({common, mer}))(SunIndex);
+export default connect(({common, mer}) => ({common, mer}))(MerIndex);

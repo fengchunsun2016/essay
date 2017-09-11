@@ -57,11 +57,10 @@ export const LOAD_MAINV_SUCCESS='LOAD_MAINV_SUCCESS';
 
 
 /********************header.start**********************/
-// //加载头部信息
-// export const HEADER_LOAD_NEWS = 'HEADER_LOAD_NEWS';
-//
-// //头部信息加载成功
-// export const HEADER_NEWS_SUCCESS = 'HEADER_NEWS_SUCCESS';
+//加载头部信息
+ export const HEADER_LOAD_NEWS = 'HEADER_LOAD_NEWS';
+//头部信息加载成功
+export const HEADER_NEWS_SUCCESS = 'HEADER_NEWS_SUCCESS';
 /********************header.end**********************/
 
 
@@ -213,3 +212,66 @@ export const ACCOUNT_LOADED       = 'ACCOUNT_LOADED';
 export const ACCOUNT_ROWS_CHANGE  = 'ACCOUNT_ROWS_CHANGE';
 export const ACCOUNT_QUERY_CHANGE = 'ACCOUNT_QUERY_CHANGE';
 /*********************账户明细.end************************/
+
+
+
+/*********************终端管理.start************************/
+//请求数据
+export const TERMINAL_LOAD = 'TERMINAL_LOAD';
+//请求成功
+export const TERMINAL_LOAD_SUCCESS = 'TERMINAL_LOAD_SUCCESS';
+//请求结束
+export const TERMINAL_LOADED = 'TERMINAL_LOADED';
+//页数或行数改变时
+export const TERMINAL_ROWS_CHANGE = 'TERMINAL_ROWS_CHANGE';
+//保存查询条件
+export const SAVE_TERMINAL_SEARCH = 'TERMINAL_ROWS_CHANGE';
+
+//请求详情数据
+export const TERMINAL_DETAIL_LOAD = 'TERMINAL_DETAIL_LOAD';
+//请求详情数据成功
+export const TERMINAL_DETAIL_SUCCESS = 'TERMINAL_DETAIL_SUCCESS';
+
+/*********************终端管理.end************************/
+
+
+
+/*********************POS交易查询.end************************/
+//请求数据
+export const POS_LOAD = 'POS_LOAD';
+//请求成功
+export const POS_LOAD_SUCCESS = 'POS_LOAD_SUCCESS';
+//请求结束
+export const POS_LOADED = 'POS_LOADED';
+//页数或行数改变时
+export const POS_ROWS_CHANGE = 'POS_ROWS_CHANGE';
+//保存搜索条件
+export const SAVE_POS_SEARCH = 'SAVE_POS_SEARCH';
+
+//请求详情数据
+export const POS_DETAIL_LOAD = 'POS_DETAIL_LOAD';
+//请求详情数据成功
+export const POS_DETAIL_SUCCESS = 'POS_DETAIL_SUCCESS';
+
+/*********************POS交易查询.end************************/
+
+
+
+/*********************点击重置时清空store的search************************/
+//统计查询
+export const RESET_SUM_SEARCH = 'RESET_SUM_SEARCH';
+//商户管理
+export const RESET_MER_SEARCH = 'RESET_MER_SEARCH';
+//终端查询
+export const RESET_TERMINAL_SEARCH = 'RESET_TERMINAL_SEARCH';
+//交易查询
+export const RESET_DEAL_SEARCH = 'RESET_DEAL_SEARCH';
+//POS交易查询
+export const RESET_POS_SEARCH = 'RESET_POS_SEARCH';
+//账户明细
+export const RESET_ACCOUNT_SEARCH = 'RESET_ACCOUNT_SEARCH';
+//结算流水
+export const RESET_SETTLEMENT_SEARCH = 'RESET_SETTLEMENT_SEARCH';
+
+/*********************POS交易查询.end************************/
+

@@ -10,15 +10,15 @@ import {commonItemLoad} from '../../modules/common/actions';
 const SumIndex=(props)=>{
   return (
     <Layout {...props}>
-      <SIndex />
+      <SIndex {...props} />
     </Layout>
   )
 }
 
 SumIndex.getInitialProps = async (props) => {
-  const {store,isServer} = props
-  const {common}=store.getState();
-  if(common.payType.length==0){
+  const {store,isServer} = props;
+  const {common} = store.getState();
+  if(common.payTypeList&&common.payTypeList.length==0){
     await store.dispatch(commonItemLoad())
   }
   return {isServer}

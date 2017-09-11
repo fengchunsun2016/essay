@@ -1,10 +1,13 @@
 import React from 'react';
+import router from 'next/router';
 import {connect} from 'react-redux';
 import {Icon} from 'antd';
 import LoginForm from '../components/loginForm';
 import {doLogin} from '../actions/login';
 import RandomUtil from '../../../utils/RandomUtil';
 import config from '../../../config/config.json';
+import { getTokenCookieAtClient } from '../../../utils/cookies';
+
 
 class Login extends React.Component {
   constructor(props) {
@@ -16,13 +19,26 @@ class Login extends React.Component {
     this.vode=this.vode.bind(this);
   }
 
+
   componentDidMount(){
+
+    let tokenCookie;
+    if (process.browser) {
+      tokenCookie = getTokenCookieAtClient();
+    }
+    if(tokenCookie){
+      router.push('/main');
+      return;
+    }
+
     this.vode();
-    this.timer = setInterval(()=>{console.log('vodeeeeeeeeeeeeeeee');this.vode()},50000);
+    this.timer = setInterval(()=>{this.vode()},50000);
   }
   componentWillUnmount(){
-    clearInterval(this.timer);
-    clearInterval(this.timerTwo);
+    if(this.timer){
+      clearInterval(this.timer);
+    }
+
   }
 
   //生成验证码
@@ -34,10 +50,11 @@ class Login extends React.Component {
       vcodeUri,
       keyID: uuid,
     })
+    this.props.auth.loginFailed = false;
   }
 
   render() {
-    const {dispatch, auth} = this.props;
+    const {dispatch, auth, auth:{loginFailed}} = this.props;
     const that=this;
     //登录配置信息
     let formConfig = {
@@ -51,10 +68,7 @@ class Login extends React.Component {
       },
       //登录
       onLogin : (data)=> {
-        const {token} = this.props.auth;
         dispatch(doLogin(data));
-
-         this.timerTwo = setTimeout(that.vode,2000);
       }
     }
     return (
@@ -73,6 +87,9 @@ class Login extends React.Component {
           <div className="login">
             <div className="text">渠道管理平台</div>
             <LoginForm {...formConfig} />
+            {
+              loginFailed?this.vode():''
+            }
 
           </div>
           <div className="footer">
@@ -84,6 +101,6 @@ class Login extends React.Component {
   }
 }
 
-const mapStatetoProps = ({auth}) => ({auth});
+const mapStatetoProps = (store,{auth}) => ({store,auth});
 
 export default connect(mapStatetoProps)(Login);

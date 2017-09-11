@@ -60,7 +60,7 @@ class SubBasic extends React.Component {
 
 
   render() {
-    const {balance, basicData, settleData, rateData} = this.props.basic;
+    const {balance, basicData, settleData, rateData, childMerCount} = this.props.basic;
     return (
 
       <div className="main">
@@ -143,7 +143,7 @@ class SubBasic extends React.Component {
                       <span className="name">下辖商户数量：</span>
                     </Col>
                     <Col span={16}>
-                      <span className="number">{basicData ? basicData.wechatCode : ''}</span>
+                      <span className="number">{childMerCount ? childMerCount : ''}</span>
                     </Col>
 
 
@@ -225,7 +225,7 @@ class SubBasic extends React.Component {
                       <span className="name">银行账户：</span>
                     </Col>
                     <Col span={18}>
-                      <span className="number">{settleData.openBankAcc}</span>
+                      <span className="number">{settleData.openBankAcc?settleData.openBankAcc.substr(0,6)+'****'+settleData.openBankAcc.substr(settleData.openBankAcc.length-4,settleData.openBankAcc.length):''}</span>
                     </Col>
                   </div>
                 </Col>
@@ -249,14 +249,14 @@ class SubBasic extends React.Component {
                   rateData&& rateData.pay? rateData.pay.map((item, index)=> {
                     return (
                       <Row key={index}>
-                        <Col span={3}>
+                        <Col span={4}>
                           <span className="name">{item.payType}</span>
                         </Col>
                         <Col span={3}>
                           <span className="subName">费率（%）：</span>
-                          <span className="">{item.rate}</span>
+                          <span className="">{(item.rate*100).toFixed(2)}</span>
                         </Col>
-                        <Col span={5}>
+                        <Col span={4}>
                           <span className="subName">手续费封顶（元）：</span>
                           <span className="">{item.hightAmt}</span>
                         </Col>
@@ -278,14 +278,14 @@ class SubBasic extends React.Component {
                   rateData&&rateData.payAnother ? rateData.payAnother.map((item, index)=> {
                     return (
                       <Row key={index}>
-                        <Col span={3}>
+                        <Col span={4}>
                           <span className="name">{item.typeCode}</span>
                         </Col>
                         <Col span={3}>
                           <span className="subName">费率（%）：</span>
-                          <span className="">{item.rate}</span>
+                          <span className="">{(item.rate*100).toFixed(2)}</span>
                         </Col>
-                        <Col span={5}>
+                        <Col span={4}>
                           <span className="subName">手续费封顶（元）：</span>
                           <span className="">{item.hightAmt}</span>
                         </Col>

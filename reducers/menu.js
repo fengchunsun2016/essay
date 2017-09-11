@@ -21,7 +21,10 @@ export  default  (state = menuState, action = {}) => {
   switch (type) {
     case ORIGIN_SUCCESS: {
       const { menuList } = action.result;
-      const sortData = menuList.sort((a,b) => a.sort - b.sort);
+      let sortData;
+      if(menuList){
+        sortData = menuList.sort((a,b) => a.sort - b.sort);
+      }
       return {...state, menus: sortData}
     }
     default:

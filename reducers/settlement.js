@@ -1,4 +1,4 @@
-import {SETTLEMENT_FULLFILLED,SETTLEMENT_PENGDING,SETTLEMENT_LOAD_SUCCESS,SETTLEMENT_CHANGE_ROWS,SAVE_SETTLEMENT_SEARCH} from '../constants/actionTypes';
+import {SETTLEMENT_FULLFILLED,SETTLEMENT_PENGDING,SETTLEMENT_LOAD_SUCCESS,SETTLEMENT_CHANGE_ROWS,SAVE_SETTLEMENT_SEARCH,RESET_SETTLEMENT_SEARCH} from '../constants/actionTypes';
 
 
 const settlementState = {
@@ -35,7 +35,9 @@ export default (state = settlementState, action = {})=>{
       const {page,rows} = action.data;
       return {...state,page,rows}
     }
-
+    //
+    case RESET_SETTLEMENT_SEARCH:
+      return{...state,search:{}}
 
     default :
       return state;

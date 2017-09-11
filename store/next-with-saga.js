@@ -1,8 +1,6 @@
 import React, {Component} from 'react'
 import {END} from 'redux-saga'
 
-import {delay} from 'redux-saga'
-
 function withReduxAndSaga(BaseComponent) {
   class WrappedComponent extends Component {
     static async getInitialProps(ctx) {

@@ -5,7 +5,8 @@ import {
   SUM_PENDING,
   SUM_LOAD_SUCCESS,
   SUM_SAVA_QUERY,
-  SUM_CHANGE_ROWS
+  SUM_CHANGE_ROWS,
+  RESET_SUM_SEARCH
 } from '../constants/actionTypes';
 
 
@@ -21,7 +22,13 @@ const sumState = {
   //交易总金额
   titlePaySum: 0,
   //查询内容
-  search: {},
+  search: {
+    requestType:'month'
+  },
+  startMonth:null,
+  endMonth:null,
+  startDay:null,
+  endDay:null,
   //当前数据
   currentData: {},
   //数据集合
@@ -31,6 +38,11 @@ const sumState = {
 export default (state = sumState, action = {}) => {
   let {type} = action;
   switch (type) {
+    //requestType更改
+    case 'CHANGE_TYPE':{
+      const {data} = action;
+      return {...state,search:{requestType:data}}
+    }
 
     //rows更改
     case SUM_CHANGE_ROWS: {
@@ -56,6 +68,10 @@ export default (state = sumState, action = {}) => {
       let {list, total} = action.data.data;
       return {...state, list, total, pending: false}
     }
+    //重置查询条件
+    case RESET_SUM_SEARCH:
+      return {...state,search:{requestType:'month'}, startMonth:null, endMonth:null, startDay:null, endDay:null,}
+
     default:
       return state;
   }

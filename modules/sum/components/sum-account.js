@@ -23,7 +23,7 @@ const styles = {
 }
 
 //统计总计
-export default ({titleFeeSum = 0, titlePayCount = 0, titlePaySum = 0,isServer})=> {
+export default ({titleFeeSum = 0, titlePayCount = 0, titlePaySum = 0})=> {
   return (
 
     <Row>
@@ -51,7 +51,7 @@ export default ({titleFeeSum = 0, titlePayCount = 0, titlePaySum = 0,isServer})=
 
           <p>
             <span style={styles.num}>
-               {titlePayCount}
+              {titlePayCount}
             </span>
 
             <span style={styles.text}>笔</span>

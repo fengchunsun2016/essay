@@ -55,7 +55,6 @@ export default function(createStore) {
         : initStore(createStore, initialState, {}, config); // client case, no store but has initialState
       // 如果新建也没有，要反省了
       if (!store) {
-        console.error('什么时候才会出这个错误呢？ 应该是你使用withredux包裹了非page吧');
         return React.createElement(ConnectedCmp, props);
       }
       // Fix for _document
@@ -74,7 +73,7 @@ export default function(createStore) {
     WrappedCmp.getInitialProps = function(ctx) {
       return new Promise(function(res) {
         ctx = ctx || {};
-        if (config.debug) console.log('1. 最终渲染的组件.getInitialProps', (ctx.req && ctx.req._store ? '使用req中的store' : '新建store'), '作为参数');
+        //if (config.debug) console.log('1. 最终渲染的组件.getInitialProps', (ctx.req && ctx.req._store ? '使用req中的store' : '新建store'), '作为参数');
         ctx.isServer = !!ctx.req;
         // 这里的initialState是undefined，则会使用默认的initialProps
         ctx.store = initStore(createStore, undefined /** initialState **/, {req: ctx.req, query: ctx.query}, config);
@@ -85,9 +84,6 @@ export default function(createStore) {
           Cmp.getInitialProps ? Cmp.getInitialProps.call(Cmp, ctx) : {}
         ]));
       }).then(function(arr) {
-        if (config.debug) console.log('2. 最终渲染的组件.getInitialProps 的store为', arr[1]);
-        if (config.debug) console.log('3. 最终渲染的组件.getInitialProps 的initialState为', arr[1].getState());
-        if (config.debug) console.log('4. 最终渲染的组件.getInitialProps 的initialProps为', arr[3]);
         return {
           isServer: arr[0],
           store: arr[1],
@@ -98,4 +94,4 @@ export default function(createStore) {
     };
     return WrappedCmp;
   };
-};
+}

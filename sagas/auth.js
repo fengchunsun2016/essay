@@ -2,11 +2,10 @@
  * Created by lihejia on 2017/7/18.
  */
 import {put, call, takeLatest} from 'redux-saga/effects';
-import {PENDING, LOGIN, SIGN_OUT, FULFILLED, TOKEN_AUTH, LOGIN_SUCCESS, ORIGIN_SUCCESS, LOAD_ORIGIN} from '../constants/actionTypes';
-import {doLogin, doLogout, getOrigin} from '../services/auth';
-
 import Router from 'next/router';
-import { setTokenCookie, getToken } from '../utils/cookies';
+import {PENDING, LOGIN, SIGN_OUT, FULFILLED, LOGIN_SUCCESS, ORIGIN_SUCCESS, LOAD_ORIGIN} from '../constants/actionTypes';
+import {doLogin, doLogout, getOrigin} from '../services/auth';
+import { setTokenCookie } from '../utils/cookies';
 
 /***
  * 登录实现
@@ -19,7 +18,7 @@ export function* login(action) {
   yield put({type: `${LOGIN}_${PENDING}`})
   try {
     const result = yield call(doLogin, loginData);
-    result && result.data && setTokenCookie(result.data.token);
+    result && result.data && setTokenCookie(result.data.token || '');
     yield put({type:LOGIN_SUCCESS,result})
     const url = Router.pathname === '/' ? '/main' : Router.pathname;
     Router.push(url);

@@ -9,9 +9,10 @@ export default  (state = newsState,action = {}) => {
   const type = action.type;
 
   switch(type){
-    case 'HEADER_NEWS_SUCCESS':
+    case HEADER_NEWS_SUCCESS:{
       const { orderNews, messageNews } = action.data;
       return {...state, orderNews, messageNews};
+    }
     default:
       return state;
   }

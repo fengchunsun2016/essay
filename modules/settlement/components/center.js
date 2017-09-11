@@ -1,9 +1,11 @@
 import React from 'react';
-import {Row, Col, Icon} from 'antd';
+import {Row, Col, Icon } from 'antd';
+
+import CompareBills from './compare-bills';
 
 
 
-export default ({amountTitle = 0, arrivalAmountTitle = 0, merFeeTitle = 0})=>{
+export default ({amountTitle = 0, arrivalAmountTitle = 0, merFeeTitle = 0, onExportBills})=>{
 
   return (
     <div>
@@ -25,6 +27,7 @@ export default ({amountTitle = 0, arrivalAmountTitle = 0, merFeeTitle = 0})=>{
           <span>手续费：</span>
           <span>{merFeeTitle}元</span>
         </Col>
+        <CompareBills onExportBills={onExportBills} />
       </Row>
     </div>
   )

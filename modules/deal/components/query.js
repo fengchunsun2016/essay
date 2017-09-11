@@ -34,6 +34,8 @@ class Query extends React.Component {
     //禁止选择时间
     this.disabledDate = this.disabledDate.bind(this);
     this.exportSubmit = this.exportSubmit.bind(this);
+    //重置查询条件（清空store的search）
+    this.resetFields = this.resetFields.bind(this);
   }
 
   //不准选择日期
@@ -71,11 +73,16 @@ class Query extends React.Component {
     });
   }
 
+  resetFields(){
+    const {resetSearch,form: { resetFields}} = this.props;
+    resetSearch();
+    resetFields();
+  }
 
   render(){
-    let {payType = [], endDate = null , startDate = null, payStatus = [], form: {getFieldDecorator, resetFields}} = this.props;
+    let {payTypeList = [], mid,merchantName,status,payType,orderNo,minAmount,maxAmount,endDate = null , startDate = null, payStatus = [], form: {getFieldDecorator}} = this.props;
     //下拉列表
-    let optionsType = payType.map((item) => (
+    let optionsType = payTypeList.map((item) => (
       <Option key={item.id} >{item.name}</Option>
     ))
     let optionsStatus = payStatus.map((item) => (
@@ -99,7 +106,7 @@ class Query extends React.Component {
                 style={{marginLeft:24}}
               >
                 {getFieldDecorator('mid', {
-                  initialValue:'',
+                  initialValue:mid?mid:'',
                 })(
                   <Input
                     size="default"
@@ -113,7 +120,7 @@ class Query extends React.Component {
                 label="商户名称"
               >
                 {getFieldDecorator('merchantName', {
-                  initialValue:'',
+                  initialValue:merchantName?merchantName:'',
                 })(
                   <Input
                     size="default"
@@ -127,7 +134,7 @@ class Query extends React.Component {
                 label="支付种类"
               >
                 {getFieldDecorator('payType', {
-                  initialValue:'all',
+                  initialValue:payType?payType:'all',
                 })(
                   <Select
                     size="default"
@@ -145,7 +152,7 @@ class Query extends React.Component {
                 label="状态"
               >
                 {getFieldDecorator('status', {
-                  initialValue:'all',
+                  initialValue:status?status:'all',
                 })(
                   <Select
                     size="default"
@@ -164,7 +171,7 @@ class Query extends React.Component {
                 label="商户订单号"
               >
                 {getFieldDecorator('orderNo', {
-                  initialValue:'',
+                  initialValue:orderNo?orderNo:'',
                 })(
                   <Input
                     size="default"
@@ -178,7 +185,7 @@ class Query extends React.Component {
                 label="交易金额"
               >
                 {getFieldDecorator('minAmount', {
-                  initialValue:'',
+                  initialValue:minAmount?minAmount:'',
                 })(
                   <Input
                     size="default"
@@ -187,10 +194,9 @@ class Query extends React.Component {
                 )}
               </FormItem>
               <span style={{fontSize:20,marginRight:10}}>~</span>
-              <FormItem
-              >
+              <FormItem>
                 {getFieldDecorator('maxAmount', {
-                  initialValue:'',
+                  initialValue:maxAmount?maxAmount:'',
                 })(
                   <Input
                     size="default"
@@ -243,7 +249,7 @@ class Query extends React.Component {
               <Button
                 size="default"
                 style={{marginLeft:8}}
-                onClick={() => resetFields()}
+                onClick={() => this.resetFields()}
               >
                 重置
               </Button>

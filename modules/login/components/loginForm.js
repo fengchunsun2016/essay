@@ -4,7 +4,7 @@ import {Row, Col, Form, Icon, Input, Button} from 'antd';
 const FormItem = Form.Item;
 
 function trim(str){ //删除左右两端的空格
-  return str.replace(/(^\s*)|(\s*$)/g, "");
+  return str.replace(/(^\s*)|(\s*$)/g, '');
 }
 
 /**

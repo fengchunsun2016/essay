@@ -16,24 +16,31 @@ import { getAccountFile } from '../../../services/export';
 import { genFileDownLink } from '../../../utils/downLink';
 
 const AccountContainer = (props) => {
-  let {accountState, common: {amountType}, dispatch} = props;
-  let { loading, search,search:{startDate,endDate}, total, rows, page, list } = accountState;
+  let {accountState, common: {amountTypeListShow,accTypeList,transTypeList}, dispatch, auth:{clientWidth}} = props;
+  let { loading, search, total, rows, page, list } = accountState;
   const queryProps = {
-    amountType,
-    startDate,
-    endDate,
+    amountTypeListShow,
+    accTypeList,
+    transTypeList,
+    search,
     onQueryChange(queryObj){
-      const newQueryObj = {...queryObj,  page:1, rows}
-      dispatch(queryChanged(newQueryObj))
+      const newQueryObj = {...queryObj,  page:1, rows};
+      dispatch(queryChanged(newQueryObj));
       dispatch(loadWithQuery(newQueryObj));
     },
     async onExport() {
-      // download('test.txt', 'Hello world!');
+
       if (search.startDate) {
         const result = await getAccountFile({...search});
         genFileDownLink(result);
       }
     },
+    transChange:(value)=> {
+      dispatch({ type : 'TRANS_CHANGE', data : value })
+    },
+    resetSearch : ()=>{
+      dispatch({type:'RESET_ACCOUNT_SEARCH'})
+    }
   }
   const listProps = {
     loading,
@@ -41,6 +48,7 @@ const AccountContainer = (props) => {
     rows,
     page,
     list,
+    clientWidth,
     onPerPageChange(current, pageSize){
       dispatch(pageChanged({rows: pageSize, page: 1}))
       const queryObj = {...search, page: 1, rows: pageSize}

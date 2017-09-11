@@ -19,7 +19,7 @@ import {Table} from 'antd';
  * @param merchantStatus 商户状态
  * @returns {}
  */
-export default ({page = 1, rows = 10, loading, total = 0, list = [], onPageChange, onPerPageChange}) => {
+export default ({page = 1, rows = 10, clientWidth, loading, total = 0, list = [], onPageChange, onPerPageChange}) => {
   const columns = [{
     title: '序号',
     dataIndex: 'id',
@@ -29,38 +29,48 @@ export default ({page = 1, rows = 10, loading, total = 0, list = [], onPageChang
   }, {
     title: '交易号',
     dataIndex: 'transNo',
-    render: (text, item) => {
-      return (
-        <p>
-          {text}
-          <span className={item.status ? 'hasRead' : ''} />
-        </p>
-      )
-    }
+  }, {
+    title: '商户号',
+    dataIndex: 'mid',
+  }, {
+    title: '商户名称',
+    dataIndex: 'merName',
+  }, {
+    title: '账户类型',
+    dataIndex: 'accType',
   }, {
     title: '来源订单号',
     dataIndex: 'transSerialNo',
+  },{
+    title: '交易类型',
+    dataIndex: 'transType',
   }, {
     title: '发生额（元）',
     className:'column-amount',
     dataIndex: 'amount',
     render: (text) => {
-      return (
-        <p>
-          {text.toFixed(2)}
-        </p>
-      )
+      if(text){
+        return (
+          <p>
+            {text.toFixed(2)}
+          </p>
+        )
+      }
+
     }
   }, {
     title: '余额（元）',
     className:'column-avlBalance',
     dataIndex: 'avlBalance',
     render: (text) => {
-      return (
-        <p>
-          {text.toFixed(2)}
-        </p>
-      )
+      if(text){
+        return (
+          <p>
+            {text.toFixed(2)}
+          </p>
+        )
+      }
+
     }
   }, {
     title: '发生额类型',
@@ -95,6 +105,8 @@ export default ({page = 1, rows = 10, loading, total = 0, list = [], onPageChang
       dataSource={list}
       pagination={pagConfig}
       rowKey="transNo"
+      style={{whiteSpace : 'nowrap'}}
+      scroll={clientWidth&&clientWidth<1500?{x:1300}:{x:'100%'}}
     />
   )
 }

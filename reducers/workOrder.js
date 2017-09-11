@@ -62,7 +62,7 @@ export default (state = workOrderState, action = {})=> {
     }
     case POST_HAVE_READ_SUCCESS:{
       const data = action.data;
-      return {...state,postHaveRead:state.postHaveRead+1}
+      return {...state,postHaveRead:data}
     }
     case POST_WORK_ORDER_SUCCESS:{
       if(action.data.code==200){
@@ -70,7 +70,7 @@ export default (state = workOrderState, action = {})=> {
       }
 
       const {data} = action;
-      return {...state,submitWorkOrder:true}
+      return {...state,submitWorkOrder:data}
     }
 
     default :

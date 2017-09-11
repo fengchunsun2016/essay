@@ -10,7 +10,7 @@ import {commonItemLoad} from '../../modules/common/actions';
 const MerIndex=(props)=>{
   return (
     <Layout {...props}>
-      <MIndex />
+      <MIndex {...props} />
 
     </Layout>
   )
@@ -18,7 +18,7 @@ const MerIndex=(props)=>{
 
 MerIndex.getInitialProps = async ({store,isServer}) => {
   const {common}=store.getState();
-  if(common.payType.length==0){
+  if(common.payTypeList&&common.payTypeList.length==0){
     await  store.dispatch(commonItemLoad())
   }
 

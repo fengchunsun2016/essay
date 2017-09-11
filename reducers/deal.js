@@ -1,4 +1,4 @@
-import {DEAL_PENGDING, DEAL_FULLFILLED, DEAL_LOAD, DEAL_LOAD_SUCCESS,SAVE_DEAL_SEARCH,DEAL_CHANGE_ROWS,LOAD_DEAL_DETAIL_SUCCESS} from '../constants/actionTypes';
+import {DEAL_PENGDING, DEAL_FULLFILLED, DEAL_LOAD_SUCCESS,SAVE_DEAL_SEARCH,DEAL_CHANGE_ROWS,LOAD_DEAL_DETAIL_SUCCESS,RESET_DEAL_SEARCH} from '../constants/actionTypes';
 
 
 const dealState = {
@@ -33,6 +33,8 @@ export default (state = dealState,action = {})=>{
       const {page,rows} = action.data;
       return {...state,page,rows}
     }
+    case RESET_DEAL_SEARCH:
+      return {...state,search:{}}
 
     case DEAL_LOAD_SUCCESS:{
       if(action.data&&(action.data.splitFeeSum||action.data.splitFeeSum==0)){

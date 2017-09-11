@@ -4,16 +4,18 @@ import Login from '../modules/login/containers/login';
 
 import withAuth from '../lib/withAuth';
 
-class Index extends React.Component {
+const Index = (props)=> {
 
-  render() {
-    return (
-      <div>
-        <LoginHead />
-        <Login {...this.props} />
-      </div>
-    )
-  }
+  return (
+    <div>
+      <LoginHead />
+      <Login {...props} />
+    </div>
+  )
+
+}
+Index.getInitialProps = ({isServer})=>{
+  return {isServer};
 }
 
 export default withAuth(Index);

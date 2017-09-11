@@ -1,6 +1,6 @@
 import {call, put, takeLatest} from 'redux-saga/effects';
 import {getWorkOrder,postHaveRead,submitWorkOrder} from '../services/workOrder';
-import {WORK_ORDER_LOAD,POST_HAVE_READ,POST_WORK_ORDER,WORK_ORDER_PENDING,WORK_ORDER_FULFILLED} from '../constants/actionTypes';
+import {WORK_ORDER_LOAD,POST_HAVE_READ,POST_WORK_ORDER,WORK_ORDER_FULFILLED} from '../constants/actionTypes';
 import {loadWorkOrderSuccess,loadMoreSuccess,postHaveReadSuccess,postWorkOrderSuccess} from '../modules/work-order/actions';
 
 
@@ -19,7 +19,6 @@ function * workOrderLoadSaga(action) {
       let {data}=result;
       yield put(loadMoreSuccess(data))
     }
-
 
   } catch (e) {
     console.error(e);

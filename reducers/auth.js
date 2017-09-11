@@ -1,8 +1,7 @@
 /**
  * Created by lihejia on 2017/7/17.
  */
-import { LOGIN_SUCCESS, TOKEN_AUTH, LOGIN, PENDING, FULFILLED, ORIGIN_SUCCESS, RESET_TOKEN, SIGN_OUT} from '../constants/actionTypes';
-import config from '../config/config.json';
+import { LOGIN_SUCCESS, LOGIN, FULFILLED, ORIGIN_SUCCESS, RESET_TOKEN, SIGN_OUT} from '../constants/actionTypes';
 import { removeTokenCookie } from '../utils/cookies';
 
 /**
@@ -13,6 +12,8 @@ export const authState = {
   token: null,  //用户登陆token
   user: {},    //当前登陆用户信息
   pending: false,   //是否加载
+  loginFailed:false,
+  loginSuccess:false,
 }
 
 
@@ -20,21 +21,28 @@ export const authState = {
 const authReducer = (state = authState, action) => {
   switch (action.type) {
       //开始登录
-    case `${LOGIN}_${PENDING}`: {
+    case LOGIN: {
       return {...state, pending: true}
     }
       //请求结束(失败或者成功)
     case `${LOGIN}_${FULFILLED}`:
       return {...state, pending: false}
     case LOGIN_SUCCESS: {
-      // let {data} = action.result;
+      let {data} = action.result;
+
+      if(data.code!=200){
+        return {...state,loginFailed:true,pending:false}
+      }
       return {
         ...state,
         // token: data.token,
         pending: false,
         // user: {username: data.userName}
+        loginSuccess:true
       }
     }
+    case 'CHANGE_LOGIN_STATUS':
+      return {...state,loginSuccess:false}
     case ORIGIN_SUCCESS: {
       const data = action.result;
       return {

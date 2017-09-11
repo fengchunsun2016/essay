@@ -20,3 +20,20 @@ export async function getSumFile(data) {
   return await getFile('/merPaySum/export',data)
 }
 
+
+//导出POS交易查询
+export async function getPosFile(data) {
+  return await getFile('/pos/export',data)
+}
+
+
+//交易查询对账文件导出
+export async function getDealBillsFile(data) {
+  return await getFile('/merPay/billExport',data)
+}
+
+
+//结算流水对账文件导出
+export async function getSettlementBillsFile(data) {
+  return await getFile('/settlement/billExport',data)
+}

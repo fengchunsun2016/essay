@@ -28,8 +28,9 @@ export function removeTokenCookie() {
   jsCookie.remove(config.tokenCookieName);
 }
 export function getTokenCookieAtClient() {
-  const value = jsCookie.get(config.tokenCookieName);
+  let value = jsCookie.get(config.tokenCookieName);
   cookies.token = value;
+
   return !!value;
 }
 export function getTokenCookieAtServer(cookiesFromServer) {

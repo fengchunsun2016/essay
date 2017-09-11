@@ -11,7 +11,7 @@ import {
 } from 'antd';
 
 const Option = Select.Option;
-const {RangePicker} = DatePicker;
+const { RangePicker } = DatePicker;
 const FormItem = Form.Item;
 
 /***
@@ -19,14 +19,14 @@ const FormItem = Form.Item;
  * @param merchantStatus 商户状态
  */
 class Query extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       //当前默认选中类型
-      requestType:'month',
-      startDate:moment(),
-      endDate:moment(),
-      loading: false,
+      requestType : 'month',
+      startDate : moment(),
+      endDate : moment(),
+      loading : false,
     }
 
     //查询
@@ -36,17 +36,17 @@ class Query extends React.Component {
   }
 
   //不准选择日期
-  disabledDate(current){
+  disabledDate(current) {
     // Can not select days before today and today
     return current && current.valueOf() > Date.now();
   }
 
-  handleSubmit(e){
+  handleSubmit(e) {
     e.preventDefault();
-    let {form, onQuery} = this.props;
-    form.validateFields((err, values) =>{
+    let { form, onQuery } = this.props;
+    form.validateFields((err, values) => {
 
-      let {serialNo, status, date} =values;
+      let { serialNo, status, date } =values;
       const dayFormat = 'YYYY-MM-DD';
       let startSettleTime;
       let endSettleTime;
@@ -55,91 +55,96 @@ class Query extends React.Component {
         endSettleTime = date[1].format(dayFormat)
       }
 
-      onQuery({serialNo, status, startSettleTime, endSettleTime});
-    });
-  }
-  async exportSubmit(e) {
-    this.setState({
-      loading: true,
-    });
-    let {onExport} = this.props;
-    await onExport();
-    this.setState({
-      loading: false,
+      onQuery({ serialNo, status, startSettleTime, endSettleTime });
     });
   }
 
-  render(){
-    let {amountStatus = [], startDate = null, endDate = null, form: {getFieldDecorator, resetFields}} = this.props;
+  async exportSubmit() {
+    this.setState({
+      loading : true,
+    });
+    let { onExport } = this.props;
+    await onExport();
+    this.setState({
+      loading : false,
+    });
+  }
+  //重置查询条件
+  resetFields(){
+    const {resetSearch,form: { resetFields}} = this.props;
+    resetSearch();
+    resetFields();
+  }
+
+  render() {
+    let { amountStatus = [], serialNo,status,startDate = null, endDate = null, form: { getFieldDecorator } } = this.props;
     //下拉列表
     let options = amountStatus.map((item) => (
-      <Option key={item.id} >{item.name}</Option>
+      <Option key={item.id}>{item.name}</Option>
     ))
 
     const rangeConfig = {
-      initialValue:[startDate?moment(startDate,'YYYY-MM-DD'):moment().subtract(1, 'month'), endDate?moment(endDate,'YYYY-MM-DD'):moment()],
-      rules:[{type:'array', message:'请选择日期!'}],
+      initialValue : [startDate ? moment(startDate, 'YYYY-MM-DD') : moment().subtract(1, 'month'), endDate ? moment(endDate, 'YYYY-MM-DD') : moment()],
+      rules : [{ type : 'array', message : '请选择日期!' }],
     }
 
     return (
       //时间选择范围
 
-      <Form layout="inline" onSubmit={this.handleSubmit} >
+      <Form layout="inline" onSubmit={this.handleSubmit}>
         <Row>
-          <Col span={18} >
-            <Col span={8} >
+          <Col span={18}>
+            <Col span={8}>
               <FormItem
                 label="结算订单号"
               >
                 {getFieldDecorator('serialNo', {
-                  initialValue:'',
+                  initialValue : serialNo?serialNo:'',
                 })(
                   <Input
                     size="default"
-                    style={{width:180}}
+                    style={{ width : 180 }}
                   />
                 )}
               </FormItem>
             </Col>
 
 
-            <Col span={6} >
+            <Col span={6}>
               <FormItem
                 label="状态"
               >
                 {getFieldDecorator('status', {
-                  initialValue:'all',
+                  initialValue : status?status:'all',
                 })(
                   <Select
                     size="default"
-                    style={{width:100}}
+                    style={{ width : 100 }}
                     placeholder="选择状态"
                   >
-                    <Option key='all' >全部</Option>
+                    <Option key='all'>全部</Option>
                     {options}
                   </Select>
                 )}
               </FormItem>
             </Col>
 
-            <Col span={10} >
+            <Col span={10}>
               <FormItem
-                label="交易时间"
+                label="结算日期"
               >
 
                 {getFieldDecorator('date', rangeConfig)(
                   <RangePicker
                     disabledDate={this.disabledDate}
-                    ranges={{今天:[moment(), moment()]}}
+                    ranges={{ 今天 : [moment(), moment()] }}
                     size="default"
-                    style={{width:200}}
+                    style={{ width : 200 }}
                   />
                 )}
 
               </FormItem>
             </Col>
-
-
 
 
           </Col>
@@ -154,18 +159,18 @@ class Query extends React.Component {
                 查询
               </Button>
               <Button
-                style={{marginLeft: 8, background: '#00AA00'}}
+                style={{ marginLeft : 8, background : '#00AA00' }}
                 type="primary"
                 size="default"
                 onClick={(e)=>this.exportSubmit(e)}
-                loading = {this.state.loading}
+                loading={this.state.loading}
               >
                 导出
               </Button>
               <Button
                 size="default"
-                style={{marginLeft:8}}
-                onClick={() => resetFields()}
+                style={{ marginLeft : 8 }}
+                onClick={() => this.resetFields()}
               >
                 重置
               </Button>

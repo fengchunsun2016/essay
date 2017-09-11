@@ -13,7 +13,7 @@ const DealIndex = (props)=>{
 }
 DealIndex.getInitialProps = async ({store,isServer})=>{
   const {common}=store.getState();
-  if(common.payType.length==0){
+  if(common.payTypeList&&common.payTypeList.length==0){
     await  store.dispatch(commonItemLoad())
   }
   return {isServer}

@@ -12,9 +12,9 @@ export default (state = basicState,action = {})=>{
 
   switch(type){
     case BASIC_SUCCESS: {
-      const {balance} = action.data;
+      const {balance, childMerCount} = action.data;
       const {basicInfo, settleInfo, rateInfo} = action.data.data;
-      return {...state,balance, basicData:basicInfo, settleData:settleInfo, rateData:rateInfo}
+      return {...state,balance, basicData:basicInfo, settleData:settleInfo, rateData:rateInfo, childMerCount}
     }
     default :
       return state;

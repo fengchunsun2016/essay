@@ -1,16 +1,16 @@
 import React from 'react';
 import Router from 'next/router';
-import {Row, Col, Icon, Button} from 'antd';
-import {connect} from 'react-redux';
+import { Row, Col, Icon, Button } from 'antd';
+import { connect } from 'react-redux';
 
 
 const styles = {
-  iconStyle: {
-    color: '#65ccf7',
-    marginRight: 8
+  iconStyle : {
+    color : '#65ccf7',
+    marginRight : 8
   },
-  itemName: {
-    textAlign: 'right'
+  itemName : {
+    textAlign : 'right'
   }
 }
 
@@ -18,9 +18,9 @@ class SubBasic extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      topIcon: true,
-      centerIcon: true,
-      bottomIcon: true,
+      topIcon : true,
+      centerIcon : true,
+      bottomIcon : true,
     }
   }
 
@@ -28,11 +28,11 @@ class SubBasic extends React.Component {
   handleTopClick() {
     if (this.state.topIcon) {
       this.setState({
-        topIcon: false
+        topIcon : false
       })
     } else {
       this.setState({
-        topIcon: true
+        topIcon : true
       })
     }
   }
@@ -40,11 +40,11 @@ class SubBasic extends React.Component {
   handleCenterClick() {
     if (this.state.centerIcon) {
       this.setState({
-        centerIcon: false
+        centerIcon : false
       })
     } else {
       this.setState({
-        centerIcon: true
+        centerIcon : true
       })
     }
   }
@@ -52,11 +52,11 @@ class SubBasic extends React.Component {
   handleBottomClick() {
     if (this.state.bottomIcon) {
       this.setState({
-        bottomIcon: false
+        bottomIcon : false
       })
     } else {
       this.setState({
-        bottomIcon: true
+        bottomIcon : true
       })
     }
   }
@@ -65,7 +65,7 @@ class SubBasic extends React.Component {
   render() {
     const {
       detailData:
-        {amount, createTime, isRefund, merName, merchantFee, mid, orderNo, payType, remark, serialNo, splitFee, status, succAmount}
+        { amount, createTime, isRefund, merName, merchantFee, mid, orderNo, payType, remark, serialNo, splitFee, status, succAmount }
     } = this.props.deal;
 
     return (
@@ -73,15 +73,18 @@ class SubBasic extends React.Component {
       <div className="main">
         <div className="top">
           <div className="title">
-            <Icon style={styles.iconStyle} type={this.state.topIcon ? 'up-circle-o' : 'down-circle-o'}
-                  onClick={()=>this.handleTopClick()}/>
+            <Icon
+              style={styles.iconStyle}
+              type={this.state.topIcon ? 'up-circle-o' : 'down-circle-o'}
+              onClick={()=>this.handleTopClick()}
+            />
             <span>基本信息</span>
           </div>
           {
             this.state.topIcon ? (<div className="content">
               <Row>
-                <Col span={8} offset={1}>
-                  <Col span={12} style={styles.itemName}>
+                <Col span={12}>
+                  <Col span={10} style={styles.itemName}>
                     <span>商户订单号：</span>
                   </Col>
 
@@ -89,7 +92,7 @@ class SubBasic extends React.Component {
 
 
                 </Col>
-                <Col span={8}>
+                <Col span={10}>
                   <Col span={12} style={styles.itemName}>
                     <span>平台订单号：</span>
                   </Col>
@@ -97,14 +100,14 @@ class SubBasic extends React.Component {
                   <span>{serialNo}</span>
                 </Col>
 
-                <Col span={8} offset={1}>
-                  <Col span={12} style={styles.itemName}>
+                <Col span={12}>
+                  <Col span={10} style={styles.itemName}>
                     <span>支付状态：</span>
                   </Col>
 
                   <span>{status}</span>
                 </Col>
-                <Col span={8}>
+                <Col span={10}>
                   <Col span={12} style={styles.itemName}>
                     <span>交易时间：</span>
                   </Col>
@@ -120,8 +123,11 @@ class SubBasic extends React.Component {
 
         <div className="center">
           <div className="title">
-            <Icon style={styles.iconStyle} type={this.state.centerIcon ? 'up-circle-o' : 'down-circle-o'}
-                  onClick={()=>this.handleCenterClick('centerCon')}/>
+            <Icon
+              style={styles.iconStyle}
+              type={this.state.centerIcon ? 'up-circle-o' : 'down-circle-o'}
+              onClick={()=>this.handleCenterClick('centerCon')}
+            />
             <span>商户信息</span>
           </div>
           {
@@ -194,14 +200,17 @@ class SubBasic extends React.Component {
 
         <div className="bottom">
           <div className="title">
-            <Icon style={styles.iconStyle} type={this.state.bottomIcon ? 'up-circle-o' : 'down-circle-o'}
-                  onClick={()=>this.handleBottomClick('bottomCon')}/>
+            <Icon
+              style={styles.iconStyle}
+              type={this.state.bottomIcon ? 'up-circle-o' : 'down-circle-o'}
+              onClick={()=>this.handleBottomClick('bottomCon')}
+            />
             <span>其他信息</span>
           </div>
           {
             this.state.bottomIcon ? (<div className="content">
               <Row>
-                <Col span={3} style={{textAlign:'right'}}>
+                <Col span={3} style={{ textAlign : 'right' }}>
                   备注：
                 </Col>
                 <Col>
@@ -243,7 +252,7 @@ class SubBasic extends React.Component {
 
 
 }
-const propsMapToState = ({deal}) => ({deal});
+const propsMapToState = ({ deal }) => ({ deal });
 
 export default connect(propsMapToState)(SubBasic);
 

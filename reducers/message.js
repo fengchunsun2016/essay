@@ -81,7 +81,7 @@ export default (state = messageState, action = {}) => {
 //消息处理
 function messageRead(list, data) {
 
-  return list.map((item, index) => {
+  return list.map((item) => {
     if (item.id === data.id) {
       item.haveRead = 1;
     }

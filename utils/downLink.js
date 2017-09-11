@@ -1,9 +1,9 @@
-async function genFileDownLink(result) {
+  export const genFileDownLink = async  (result)=> {
   const disposition = result.headers.get('Content-Disposition')
   if (!disposition) return;
   const fileName = decodeURI(disposition.split('filename=')[1]);
   const data = await result.blob();
-  const blob = new Blob([data], {type: "text/plain;charset=utf-8"});
+  const blob = new Blob([data], {type: 'text/plain;charset=utf-8'});
   const windowUrl = window.URL || window.webkitURL;
   const url = windowUrl.createObjectURL(blob);
   const ele = document.createElement('a');
@@ -14,4 +14,4 @@ async function genFileDownLink(result) {
   ele.dispatchEvent(event);
 };
 
-export { genFileDownLink };
+export default { genFileDownLink };

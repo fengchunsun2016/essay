@@ -21,10 +21,10 @@ class ChangeForm extends React.Component {
         try {
          submit(values);
         } catch (error) {
-          console.log(error)
+            // console.log(error)
         }
       }else {
-        console.log(err);
+        // console.log(err);
       }
     });
   }

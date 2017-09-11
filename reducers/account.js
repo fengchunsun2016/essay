@@ -10,7 +10,8 @@ import {
   ACCOUNT_LOADED,
   ACCOUNT_ROWS_CHANGE,
   ACCOUNT_QUERY_CHANGE,
-  ACCOUNT_FULFILLED
+  ACCOUNT_FULFILLED,
+  RESET_ACCOUNT_SEARCH
 } from '../constants/actionTypes';
 
 
@@ -44,6 +45,8 @@ export default (state = accountState, action = {}) => {
       const { value } = action;
       return {...state, search: value}
     }
+    case RESET_ACCOUNT_SEARCH:
+      return {...state,search:{}}
     default:
       return state;
   }
